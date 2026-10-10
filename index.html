@@ -244,6 +244,13 @@ textarea#copyFallback{background:#fff;color:var(--ink);border:1px solid #bdbdbd}
 .hint,.meta,.counts{color:var(--muted)}
 @media (orientation:landscape) and (max-height:520px){.card .info{padding:6px 14px 8px}}
 @media (max-height:700px) and (orientation:portrait){.card .info p{display:none}.card .info{padding:8px 14px 10px}}
+.sharebar{flex:none;position:sticky;bottom:0;z-index:8;display:flex;justify-content:center;padding:8px 0 calc(8px + env(safe-area-inset-bottom));background:linear-gradient(rgba(251,248,243,0),var(--bg) 30%)}
+.share{min-height:44px;min-width:160px;padding:0 22px;border:2px solid var(--accent);border-radius:0;background:#fff;color:var(--ink);text-transform:uppercase;letter-spacing:.1em;font-weight:700;font-size:13px;font-family:var(--body)}
+.share:hover{background:var(--accent);color:#fafafa}
+html.lock .sharebar{padding:4px 0 calc(6px + env(safe-area-inset-bottom))}
+.toast{bottom:calc(76px + env(safe-area-inset-bottom))}
+#results,#home{padding-bottom:16px}
+.intro.show ~ * .sharebar{display:none}
 </style>
 </head>
 <body>
@@ -314,6 +321,7 @@ textarea#copyFallback{background:#fff;color:var(--ink);border:1px solid #bdbdbd}
       <div class="credits" id="credits"></div>
     </details>
   </section>
+  <div class="sharebar"><button class="share mw-hover" id="btnShare" aria-label="Share My Picks">&#8679;&ensp;Share</button></div>
 </div>
 <div class="toast" id="toast"></div>
 <div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
@@ -335,7 +343,7 @@ textarea#copyFallback{background:#fff;color:var(--ink);border:1px solid #bdbdbd}
 
 <script>
 const DECKS = [{"id": "overall", "title": "Overall Style", "blurb": "The original 100 cards across the whole house.", "count": 100, "key": "blueprintSwipe.v1", "group": "overall", "ready": true, "cover": "img/overall/c009.jpg"}, {"id": "office", "title": "Office and Music Studio", "blurb": "Desk, walls, light, and the music rig in your loft-like workroom.", "count": 22, "key": "blueprintSwipe.deck.office.v1", "group": "first", "ready": true, "cover": "img/office/office-19.jpg"}, {"id": "gym", "title": "Gym", "blurb": "An athletic training room with a rig, Pilates Cadillac, and garden air.", "count": 18, "key": "blueprintSwipe.deck.gym.v1", "group": "first", "ready": true, "cover": "img/gym/gym-14.jpg"}, {"id": "wellness", "title": "Sauna and Wellness", "blurb": "Sauna, steam, cold plunge, and the outdoor shower.", "count": 20, "key": "blueprintSwipe.deck.wellness.v1", "group": "first", "ready": true, "cover": "img/wellness/wellness-01.jpg"}, {"id": "kitchen", "title": "Kitchen", "blurb": "Cabinets, stone, hardware, range, and island, one decision at a time.", "count": 21, "key": "blueprintSwipe.deck.kitchen.v1", "group": "first", "ready": true, "cover": "img/kitchen/kitchen-17.jpg"}, {"id": "living", "title": "Living and Conversation Pit", "blurb": "The sunken pit, seating, fireplace, and the tatami room.", "count": 14, "key": "blueprintSwipe.deck.living.v1", "group": "more", "ready": true, "cover": "img/living/living-00.jpg"}, {"id": "master", "title": "Master Suite", "blurb": "The bed, walls, light, and the view from your bedroom.", "count": 15, "key": "blueprintSwipe.deck.master.v1", "group": "more", "ready": true, "cover": "img/master/master-06.jpg"}, {"id": "bath", "title": "Master Bath", "blurb": "The tub, shower, vanity, and stone of your bathroom.", "count": 14, "key": "blueprintSwipe.deck.bath.v1", "group": "more", "ready": true, "cover": "img/bath/bath-00.jpg"}, {"id": "kids", "title": "Kids' Rooms", "blurb": "Beds, storage, and play features for the children's rooms.", "count": 12, "key": "blueprintSwipe.deck.kids.v1", "group": "more", "ready": true, "cover": "img/kids/kids-08.jpg"}, {"id": "courtyard", "title": "Courtyard and Engawa", "blurb": "The central courtyard, the engawa veranda, and the eaves.", "count": 18, "key": "blueprintSwipe.deck.courtyard.v1", "group": "more", "ready": true, "cover": "img/courtyard/courtyard-00.jpg"}, {"id": "pool", "title": "Pool and Landscape", "blurb": "The pool, its edges, decking, and the wider garden.", "count": 15, "key": "blueprintSwipe.deck.pool.v1", "group": "more", "ready": true, "cover": "img/pool/pool-01.jpg"}, {"id": "entry", "title": "Entry and Exterior", "blurb": "Arrival, front door, walls, roof, and the street face.", "count": 19, "key": "blueprintSwipe.deck.entry.v1", "group": "more", "ready": true, "cover": "img/entry/entry-08.jpg"}];
-const VER = "1791636998";
+const VER = "1791637332";
 const INTRO_KEY = "blueprintSwipe.introSeen.v1";
 const HINT_CARDS = 3;
 const $ = s => document.querySelector(s);
@@ -620,6 +628,31 @@ document.addEventListener("keydown", e => {
 });
 route(); preloadAll();
 try { if (!localStorage.getItem(INTRO_KEY)) showIntro(); } catch(e){ showIntro(); }
+
+// ---------- Share (brand standard: Web Share, then sms:, then copy link) ----------
+function shareSummary(){
+  const out=[];
+  DECKS.filter(d=>d.ready).forEach(d=>{
+    const st=readState(d.id, DATA[d.id]&&DATA[d.id].cards); if(!st||!st.verdicts) return;
+    const v=st.verdicts, vals=Object.values(v); if(!vals.length) return;
+    const n=k=>vals.filter(x=>x===k).length;
+    let line=`${d.title}: ${n("love")} Love, ${n("yes")} Yes, ${n("maybe")} Maybe, ${n("no")} No`;
+    const cards=DATA[d.id]&&DATA[d.id].cards;
+    if(cards){ const top=[...cards.filter(c=>v[c.id]==="love"),...cards.filter(c=>v[c.id]==="yes")].slice(0,3).map(c=>c.title);
+      if(top.length) line+=`. Top: ${top.join(", ")}`; }
+    out.push(line);
+  });
+  return out.length ? "My Blueprint Swipe picks:\n"+out.join("\n") : "Take a look at Blueprint Swipe:";
+}
+async function sharePicks(){
+  const url=location.origin+location.pathname, text=shareSummary();
+  if(navigator.share){ try{ await navigator.share({title:"Blueprint Swipe", text, url}); return; } catch(e){ if(e && e.name==="AbortError") return; } }
+  if(matchMedia("(pointer:coarse)").matches){ location.href="sms:?&body="+encodeURIComponent(text+"\n"+url); return; }
+  const full=text+"\n"+url;
+  try{ await navigator.clipboard.writeText(full); toast("Link Copied"); }
+  catch(e){ const ta=document.createElement("textarea"); ta.value=full; document.body.appendChild(ta); ta.select(); let ok=false; try{ok=document.execCommand("copy")}catch(_){} ta.remove(); toast(ok?"Link Copied":"Copy Failed"); }
+}
+$("#btnShare").onclick = sharePicks;
 </script>
 </body>
 </html>
