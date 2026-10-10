@@ -251,6 +251,11 @@ html.lock .sharebar{padding:4px 0 calc(6px + env(safe-area-inset-bottom))}
 .toast{bottom:calc(76px + env(safe-area-inset-bottom))}
 #results,#home{padding-bottom:16px}
 .intro.show ~ * .sharebar{display:none}
+.skiprow{flex:none;display:flex;justify-content:center;margin:-8px 0 0}
+.skip{min-height:44px;min-width:44px;padding:0 14px;background:transparent;border:0;color:var(--muted);font-family:var(--body);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:underline;text-decoration-color:rgba(10,10,10,.25);text-underline-offset:4px}
+.skip:hover{color:var(--ink);text-decoration-color:var(--ink)}
+.skip:disabled{opacity:.35}
+@media (orientation:landscape) and (max-height:520px){.skiprow{margin:0}}
 </style>
 </head>
 <body>
@@ -303,7 +308,8 @@ html.lock .sharebar{padding:4px 0 calc(6px + env(safe-area-inset-bottom))}
       <button class="cbtn love mw-hover" id="btnLove" title="Love (L)" aria-label="Love">&#10084;&#65038;</button>
       <button class="cbtn yes mw-hover" id="btnYes" title="Yes (Right Arrow)" aria-label="Yes">&#10003;</button>
     </div>
-    <div class="hint">Rate Only the Named Feature &middot; Swipe Right = Yes &middot; Swipe Left = No &middot; Tap Maybe or Love<span class="keys"> &middot; Keys: &larr; No, &rarr; Yes, M Maybe, L Love</span></div>
+    <div class="skiprow"><button class="skip mw-hover" id="btnSkip" title="Skip (S)" aria-label="Skip for now">Skip for Now &rsaquo;</button></div>
+    <div class="hint">Rate Only the Named Feature &middot; Swipe Right = Yes &middot; Swipe Left = No &middot; Tap Maybe or Love<span class="keys"> &middot; Keys: &larr; No, &rarr; Yes, M Maybe, L Love, S Skip</span></div>
   </main>
 
   <section id="results">
@@ -343,7 +349,7 @@ html.lock .sharebar{padding:4px 0 calc(6px + env(safe-area-inset-bottom))}
 
 <script>
 const DECKS = [{"id": "overall", "title": "Overall Style", "blurb": "The original 100 cards across the whole house.", "count": 100, "key": "blueprintSwipe.v1", "group": "overall", "ready": true, "cover": "img/overall/c009.jpg"}, {"id": "office", "title": "Office and Music Studio", "blurb": "Desk, walls, light, and the music rig in your loft-like workroom.", "count": 22, "key": "blueprintSwipe.deck.office.v1", "group": "first", "ready": true, "cover": "img/office/office-19.jpg"}, {"id": "gym", "title": "Gym", "blurb": "An athletic training room with a rig, Pilates Cadillac, and garden air.", "count": 18, "key": "blueprintSwipe.deck.gym.v1", "group": "first", "ready": true, "cover": "img/gym/gym-14.jpg"}, {"id": "wellness", "title": "Sauna and Wellness", "blurb": "Sauna, steam, cold plunge, and the outdoor shower.", "count": 20, "key": "blueprintSwipe.deck.wellness.v1", "group": "first", "ready": true, "cover": "img/wellness/wellness-01.jpg"}, {"id": "kitchen", "title": "Kitchen", "blurb": "Cabinets, stone, hardware, range, and island, one decision at a time.", "count": 21, "key": "blueprintSwipe.deck.kitchen.v1", "group": "first", "ready": true, "cover": "img/kitchen/kitchen-17.jpg"}, {"id": "living", "title": "Living and Conversation Pit", "blurb": "The sunken pit, seating, fireplace, and the tatami room.", "count": 14, "key": "blueprintSwipe.deck.living.v1", "group": "more", "ready": true, "cover": "img/living/living-00.jpg"}, {"id": "master", "title": "Master Suite", "blurb": "The bed, walls, light, and the view from your bedroom.", "count": 15, "key": "blueprintSwipe.deck.master.v1", "group": "more", "ready": true, "cover": "img/master/master-06.jpg"}, {"id": "bath", "title": "Master Bath", "blurb": "The tub, shower, vanity, and stone of your bathroom.", "count": 14, "key": "blueprintSwipe.deck.bath.v1", "group": "more", "ready": true, "cover": "img/bath/bath-00.jpg"}, {"id": "kids", "title": "Kids' Rooms", "blurb": "Beds, storage, and play features for the children's rooms.", "count": 12, "key": "blueprintSwipe.deck.kids.v1", "group": "more", "ready": true, "cover": "img/kids/kids-08.jpg"}, {"id": "courtyard", "title": "Courtyard and Engawa", "blurb": "The central courtyard, the engawa veranda, and the eaves.", "count": 18, "key": "blueprintSwipe.deck.courtyard.v1", "group": "more", "ready": true, "cover": "img/courtyard/courtyard-00.jpg"}, {"id": "pool", "title": "Pool and Landscape", "blurb": "The pool, its edges, decking, and the wider garden.", "count": 15, "key": "blueprintSwipe.deck.pool.v1", "group": "more", "ready": true, "cover": "img/pool/pool-01.jpg"}, {"id": "entry", "title": "Entry and Exterior", "blurb": "Arrival, front door, walls, roof, and the street face.", "count": 19, "key": "blueprintSwipe.deck.entry.v1", "group": "more", "ready": true, "cover": "img/entry/entry-08.jpg"}];
-const VER = "1791637332";
+const VER = "1791637890";
 const INTRO_KEY = "blueprintSwipe.introSeen.v1";
 const HINT_CARDS = 3;
 const $ = s => document.querySelector(s);
@@ -452,7 +458,7 @@ function render(){
   $("#count").textContent = `${n} / ${CARDS.length} Rated`;
   const v = Object.values(state.verdicts);
   $("#tally").textContent = `♥ ${v.filter(x=>x==="love").length}  ·  ✓ ${v.filter(x=>x==="yes").length}  ·  ? ${v.filter(x=>x==="maybe").length}  ·  ✕ ${v.filter(x=>x==="no").length}`;
-  ["#btnNo","#btnYes","#btnLove","#btnMaybe"].forEach(s => $(s).disabled = !rem.length);
+  ["#btnNo","#btnYes","#btnLove","#btnMaybe","#btnSkip"].forEach(s => $(s).disabled = !rem.length);
   $("#btnUndo").disabled = !state.history.length;
 }
 function topCard(){ const els = stage.querySelectorAll(".card"); return els[els.length-1]; }
@@ -623,6 +629,7 @@ document.addEventListener("keydown", e => {
   if (e.key==="ArrowLeft") decide("no");
   else if (e.key==="ArrowRight") decide("yes");
   else if (e.key==="m" || e.key==="M") decide("maybe");
+  else if (e.key==="s" || e.key==="S") skip();
   else if (e.key==="l" || e.key==="L") decide("love");
   else if (e.key==="Backspace" || (e.key==="z" && (e.metaKey||e.ctrlKey))) { e.preventDefault(); undo(); }
 });
@@ -652,6 +659,15 @@ async function sharePicks(){
   try{ await navigator.clipboard.writeText(full); toast("Link Copied"); }
   catch(e){ const ta=document.createElement("textarea"); ta.value=full; document.body.appendChild(ta); ta.select(); let ok=false; try{ok=document.execCommand("copy")}catch(_){} ta.remove(); toast(ok?"Link Copied":"Copy Failed"); }
 }
+
+function skip(){
+  const el = topCard(); if (!el || el.dataset.leaving) return;
+  el.dataset.leaving = 1; const id = el.dataset.id;
+  state.order = [...state.order.filter(x => x !== id), id]; save();
+  el.style.transition = "transform .3s ease, opacity .3s ease"; el.style.transform = "translateY(30px) scale(.94)"; el.style.opacity = 0;
+  const d = DECK; setTimeout(() => { if (DECK===d) render(); }, 260);
+}
+$("#btnSkip").onclick = skip;
 $("#btnShare").onclick = sharePicks;
 </script>
 </body>
