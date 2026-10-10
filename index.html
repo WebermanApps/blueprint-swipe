@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1d1b18">
+<meta name="theme-color" content="#fbf8f3">
+<meta name="color-scheme" content="light only">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Khand:wght@500;600;700&display=swap" rel="stylesheet">
 <title>Blueprint Swipe: Pick a Room</title>
 <style>
 :root{--bg:#1d1b18;--panel:#272420;--ink:#f4efe6;--muted:#b4ab9c;--accent:#d9a35b;--yes:#4caf7a;--no:#d9796f;--love:#e0245e;--maybe:#e8a93a;--mw-dur:180ms;--mw-ease:cubic-bezier(.2,.8,.2,1);--line:#3a352f}
@@ -183,6 +186,64 @@ textarea#copyFallback{width:100%;height:200px;display:block;background:#111;colo
 .pill{white-space:nowrap}
 .card .ai{position:absolute;top:10px;right:10px;z-index:2;background:rgba(0,0,0,.72);color:#ffd36b;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:5px 9px;border-radius:999px;border:1px solid rgba(255,211,107,.5)}
 .card .firsthint ~ .ai{top:46px}
+
+/* ===== Light mode only: maxweberman.com brand base (Oct 10, 2026) ===== */
+:root{color-scheme:light;--bg:#fbf8f3;--panel:#ffffff;--ink:#0a0a0a;--muted:#5f5f5f;--accent:#171717;--line:#e5e5e5;
+ --no:#b4473c;--maybe:#9a6200;--love:#d0114f;--yes:#1e7d4a;--head:"Khand",sans-serif;--body:"Hind",system-ui,-apple-system,"Segoe UI",sans-serif}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--body)}
+h1,h2,h3,#deckName,summary,.deckbtn h3,.card h2,#results h2,#results h3,#home h2,.intro h2,.done h2,.allbox h3{font-family:var(--head);font-weight:700;letter-spacing:.2px}
+h1{font-size:26px;text-transform:uppercase;letter-spacing:.06em} h1 span{color:var(--ink)}
+#home h2,#results h2,.intro h2{font-size:32px;line-height:1.05}
+.deckbtn h3{font-size:20px} .card h2{font-size:24px} #deckName{font-size:21px}
+/* square 2px buttons, uppercase tracked labels */
+.pill,.primary{border-radius:0;border:2px solid var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:700;font-size:13px;font-family:var(--body)}
+.pill{background:transparent;color:var(--ink)} .pill:hover{background:var(--accent);color:#fafafa;border-color:var(--accent)}
+.primary{background:var(--accent);color:#fafafa} .primary:hover{background:transparent;color:var(--ink)}
+.pill.help{text-transform:none}
+.cbtn{border-radius:0;border-width:2px;background:#fff;box-shadow:0 1px 2px rgba(10,10,10,.06)}
+.cbtn.no{color:var(--no);border-color:var(--no);background:#fdf3f2}
+.cbtn.maybe{color:var(--maybe);border-color:var(--maybe);background:#fdf6e8}
+.cbtn.love{color:var(--love);border-color:var(--love);background:#fdeef3}
+.cbtn.yes{color:var(--yes);border-color:var(--yes);background:#eef7f1}
+.cbtn.undo{color:var(--muted);border-color:#bdbdbd;background:#fff}
+.cbtn:disabled{opacity:.4}
+@media (hover:hover){.mw-hover:hover{box-shadow:0 6px 18px rgba(10,10,10,.12)}} .mw-hover:focus-visible{box-shadow:0 6px 18px rgba(10,10,10,.12);outline:2px solid var(--ink);outline-offset:2px}
+.progress{background:var(--line)} .progress>div{background:var(--accent)}
+/* card: white frame, photo, caption panel below the photo (no dark overlays) */
+.card{background:#fff;border:1px solid var(--line);box-shadow:0 10px 28px rgba(10,10,10,.12)}
+.card .ask{background:#fff;color:var(--ink);border-bottom:2px solid var(--accent)}
+.card .ask .q b{color:var(--ink);text-transform:uppercase;font-family:var(--head);letter-spacing:.06em}
+.card .ask .q{font-family:var(--body);font-weight:700} .card .ask .ig{color:var(--muted)}
+.card .pic{background:#f5f5f5}
+.card .pic img.bg{filter:blur(18px) brightness(1.08) saturate(.8);opacity:.55}
+.card .info{position:relative;flex:none;background:#fff;padding:10px 16px 12px;border-top:1px solid var(--line)}
+.card .tag{background:transparent;color:var(--ink);border:1.5px solid var(--ink);border-radius:0;letter-spacing:.1em}
+.card h2{color:var(--ink);margin:6px 0 2px} .card p{color:var(--muted)}
+.card .firsthint{background:rgba(255,255,255,.94);color:var(--ink);border:1px solid var(--line);box-shadow:0 2px 8px rgba(10,10,10,.12)}
+.card .firsthint .l{color:var(--no)}.card .firsthint .r{color:var(--yes)}.card .firsthint .u{color:var(--maybe)}
+.card .ai{background:rgba(255,255,255,.94);color:var(--ink);border:1px solid var(--ink);border-radius:0}
+.card .stamp{background:rgba(255,255,255,.88)}
+.card.behind{filter:none;opacity:.9} .card.behind2{filter:none;opacity:.75}
+/* results, home, panels */
+.summary,.cat,details,.allbox,.deckbtn,.intro .mv{background:#fff;border:1px solid var(--line);box-shadow:0 1px 2px rgba(10,10,10,.04)}
+.summary b{color:var(--ink)} .deckbtn:hover{border-color:var(--accent)}
+.deckbtn img{background:#f5f5f5} .deckbtn .pc b{color:var(--ink)}
+.sect{color:var(--ink);letter-spacing:.1em}
+summary::before{color:var(--ink)}
+.bar{background:#ececec}
+.v.love{background:var(--love);color:#fff}.v.yes{background:var(--yes);color:#fff}.v.maybe{background:var(--maybe);color:#fff}
+.v.no{background:#f6e3e1;color:#8e3329}.v.skip{background:#f0f0f0;color:var(--muted)}
+.item.no{opacity:.7}
+.credits a{color:var(--ink);text-decoration:underline;text-decoration-color:rgba(10,10,10,.3)}
+.toast{background:var(--accent);color:#fafafa;border-radius:0}
+textarea#copyFallback{background:#fff;color:var(--ink);border:1px solid #bdbdbd}
+.intro{background:var(--bg)} .intro h2,.intro h3{color:var(--ink)} .intro p{color:var(--muted)}
+.intro .example{background:#fff;color:var(--ink);border:1px solid var(--line);border-bottom:2px solid var(--accent)}
+.intro .example b{color:var(--ink)} .intro .example small{color:var(--muted)}
+.done{border-color:#cfcfcf}
+.hint,.meta,.counts{color:var(--muted)}
+@media (orientation:landscape) and (max-height:520px){.card .info{padding:6px 14px 8px}}
+@media (max-height:700px) and (orientation:portrait){.card .info p{display:none}.card .info{padding:8px 14px 10px}}
 </style>
 </head>
 <body>
@@ -274,7 +335,7 @@ textarea#copyFallback{width:100%;height:200px;display:block;background:#111;colo
 
 <script>
 const DECKS = [{"id": "overall", "title": "Overall Style", "blurb": "The original 100 cards across the whole house.", "count": 100, "key": "blueprintSwipe.v1", "group": "overall", "ready": true, "cover": "img/overall/c009.jpg"}, {"id": "office", "title": "Office and Music Studio", "blurb": "Desk, walls, light, and the music rig in your loft-like workroom.", "count": 22, "key": "blueprintSwipe.deck.office.v1", "group": "first", "ready": true, "cover": "img/office/office-19.jpg"}, {"id": "gym", "title": "Gym", "blurb": "An athletic training room with a rig, Pilates Cadillac, and garden air.", "count": 18, "key": "blueprintSwipe.deck.gym.v1", "group": "first", "ready": true, "cover": "img/gym/gym-14.jpg"}, {"id": "wellness", "title": "Sauna and Wellness", "blurb": "Sauna, steam, cold plunge, and the outdoor shower.", "count": 20, "key": "blueprintSwipe.deck.wellness.v1", "group": "first", "ready": true, "cover": "img/wellness/wellness-01.jpg"}, {"id": "kitchen", "title": "Kitchen", "blurb": "Cabinets, stone, hardware, range, and island, one decision at a time.", "count": 21, "key": "blueprintSwipe.deck.kitchen.v1", "group": "first", "ready": true, "cover": "img/kitchen/kitchen-17.jpg"}, {"id": "living", "title": "Living and Conversation Pit", "blurb": "The sunken pit, seating, fireplace, and the tatami room.", "count": 14, "key": "blueprintSwipe.deck.living.v1", "group": "more", "ready": true, "cover": "img/living/living-00.jpg"}, {"id": "master", "title": "Master Suite", "blurb": "The bed, walls, light, and the view from your bedroom.", "count": 15, "key": "blueprintSwipe.deck.master.v1", "group": "more", "ready": true, "cover": "img/master/master-06.jpg"}, {"id": "bath", "title": "Master Bath", "blurb": "The tub, shower, vanity, and stone of your bathroom.", "count": 14, "key": "blueprintSwipe.deck.bath.v1", "group": "more", "ready": true, "cover": "img/bath/bath-00.jpg"}, {"id": "kids", "title": "Kids' Rooms", "blurb": "Beds, storage, and play features for the children's rooms.", "count": 12, "key": "blueprintSwipe.deck.kids.v1", "group": "more", "ready": true, "cover": "img/kids/kids-08.jpg"}, {"id": "courtyard", "title": "Courtyard and Engawa", "blurb": "The central courtyard, the engawa veranda, and the eaves.", "count": 18, "key": "blueprintSwipe.deck.courtyard.v1", "group": "more", "ready": true, "cover": "img/courtyard/courtyard-00.jpg"}, {"id": "pool", "title": "Pool and Landscape", "blurb": "The pool, its edges, decking, and the wider garden.", "count": 15, "key": "blueprintSwipe.deck.pool.v1", "group": "more", "ready": true, "cover": "img/pool/pool-01.jpg"}, {"id": "entry", "title": "Entry and Exterior", "blurb": "Arrival, front door, walls, roof, and the street face.", "count": 19, "key": "blueprintSwipe.deck.entry.v1", "group": "more", "ready": true, "cover": "img/entry/entry-08.jpg"}];
-const VER = "1791636502";
+const VER = "1791636998";
 const INTRO_KEY = "blueprintSwipe.introSeen.v1";
 const HINT_CARDS = 3;
 const $ = s => document.querySelector(s);
@@ -363,7 +424,7 @@ function cardEl(c){
   el.innerHTML = `<div class="ask"><div class="q"><b>Rate This:</b> ${c.focus}</div><div class="ig">${c.ignore}</div></div>
   <div class="pic">${c.fit ? `<img class="bg" alt="" src="${c.img}">` : ""}<img class="fg" alt="${esc(c.focus)}" src="${c.img}">${hint}${c.ai?`<div class="ai">AI Concept</div>`:""}
   <div class="stamp yes">YES</div><div class="stamp no">NOPE</div><div class="stamp maybe">MAYBE</div><div class="stamp love">LOVE</div>
-  <div class="info"><span class="tag">${CATEGORIES[c.cat]}</span><h2>${c.title}</h2><p>${c.caption}</p></div></div>`;
+  </div><div class="info"><span class="tag">${CATEGORIES[c.cat]}</span><h2>${c.title}</h2><p>${c.caption}</p></div>`;
   return el;
 }
 function render(){
