@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#1d1b18">
 <title>Blueprint Swipe: Pick a Room</title>
 <style>
-:root{--bg:#1d1b18;--panel:#272420;--ink:#f4efe6;--muted:#b4ab9c;--accent:#d9a35b;--yes:#4caf7a;--no:#e0604f;--love:#e9b43a;--line:#3a352f}
+:root{--bg:#1d1b18;--panel:#272420;--ink:#f4efe6;--muted:#b4ab9c;--accent:#d9a35b;--yes:#4caf7a;--no:#d9796f;--love:#e0245e;--maybe:#e8a93a;--mw-dur:180ms;--mw-ease:cubic-bezier(.2,.8,.2,1);--line:#3a352f}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 html,body{overscroll-behavior:none}
@@ -58,6 +58,21 @@ h1 span{color:var(--accent)}
 .cbtn.yes{color:var(--yes)} .cbtn.yes:hover{border-color:var(--yes)}
 .cbtn.love{color:var(--love)} .cbtn.love:hover{border-color:var(--love)}
 .cbtn.undo{color:var(--muted)}
+.cbtn.no{border-color:rgba(217,121,111,.55);background:rgba(217,121,111,.10)}
+.cbtn.maybe{border-color:rgba(232,169,58,.55);background:rgba(232,169,58,.10)}
+.cbtn.love{border-color:rgba(224,36,94,.65);background:rgba(224,36,94,.12);color:#f0446f}
+.cbtn.yes{border-color:rgba(76,175,122,.55);background:rgba(76,175,122,.10)}
+.cbtn.maybe{color:var(--maybe)} .cbtn.maybe:hover{border-color:var(--maybe)}
+.stamp.maybe{left:50%;top:40%;transform:translate(-50%,-50%) rotate(4deg);color:var(--maybe);border-color:var(--maybe)}
+.v.maybe{background:var(--maybe);color:#1d1b18}.bar div.m{background:var(--maybe)}
+/* Max brand motion: .mw-hover (brand-tokens.css) */
+.mw-hover{transition:transform var(--mw-dur) var(--mw-ease),box-shadow var(--mw-dur) var(--mw-ease),background-color var(--mw-dur) var(--mw-ease),border-color var(--mw-dur) var(--mw-ease)}
+@media (hover:hover){.mw-hover:hover{transform:translateY(-1px) scale(1.03);box-shadow:0 6px 18px rgba(0,0,0,.28)}}
+.mw-hover:focus-visible{transform:translateY(-1px) scale(1.03);box-shadow:0 6px 18px rgba(0,0,0,.28)}
+.cat.mw-hover:hover,.deckbtn.mw-hover:hover{transform:translateY(-2px) scale(1.01)}
+.mw-hover:active{transform:scale(.98)}
+.mw-hover:disabled{transform:none;box-shadow:none}
+@media (prefers-reduced-motion: reduce){.mw-hover,.mw-hover:hover,.mw-hover:focus-visible,.mw-hover:active{transition:none;transform:none}}
 .cbtn:disabled{opacity:.35;cursor:default}
 .hint{text-align:center;color:var(--muted);font-size:12px;margin-top:-4px;padding-bottom:8px;flex:none}
 .hint .keys{display:inline}
@@ -83,7 +98,7 @@ h1 span{color:var(--accent)}
 .item img{width:46px;height:34px;object-fit:cover;border-radius:6px;flex:none}
 .item .t{flex:1;min-width:0;overflow-wrap:anywhere}
 .v{font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
-.v.love{background:var(--love);color:#1d1b18}.v.yes{background:var(--yes);color:#0e2418}.v.no{background:#4a2b27;color:#f0a99f}.v.skip{background:var(--line);color:var(--muted)}
+.v.love{background:#c81e52;color:#fff}.v.yes{background:var(--yes);color:#0e2418}.v.no{background:#4a2b27;color:#f0a99f}.v.skip{background:var(--line);color:var(--muted)}
 .item.no{opacity:.55}
 details{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:12px 0}
 summary{cursor:pointer;font-family:Georgia,serif;font-size:17px;min-height:44px;display:flex;align-items:center}
@@ -178,9 +193,9 @@ textarea#copyFallback{width:100%;height:200px;display:block;background:#111;colo
         <div style="min-width:0"><h1>Blueprint <span>Swipe</span></h1><div id="deckName"></div></div>
       </div>
       <div style="display:flex;gap:6px">
-        <button class="pill" id="btnSwipeView" style="display:none">Swipe</button>
+        <button class="pill mw-hover" id="btnSwipeView" style="display:none">Swipe</button>
         <button class="pill help" id="btnHelp" aria-label="How It Works" title="How It Works">?</button>
-        <button class="pill" id="btnResults" style="display:none">Results</button>
+        <button class="pill mw-hover" id="btnResults" style="display:none">Results</button>
       </div>
     </div>
     <div id="deckMeta" style="display:none">
@@ -197,8 +212,8 @@ textarea#copyFallback{width:100%;height:200px;display:block;background:#111;colo
       <h3>All Decks Together</h3>
       <p id="allSummary"></p>
       <div class="actions">
-        <button class="primary" id="btnCopyAll">Copy All Results</button>
-        <button class="pill" id="btnJsonAll">Download All JSON</button>
+        <button class="primary mw-hover" id="btnCopyAll">Copy All Results</button>
+        <button class="pill mw-hover" id="btnJsonAll">Download All JSON</button>
       </div>
     </div>
   </section>
@@ -208,25 +223,26 @@ textarea#copyFallback{width:100%;height:200px;display:block;background:#111;colo
       <div class="done" id="done">
         <h2>Deck Complete!</h2>
         <p style="color:var(--muted);margin:0">You have rated every card in this room.</p>
-        <button class="primary" id="btnSeeResults">See My Results</button>
-        <button class="pill" id="btnDoneHome">Pick Another Room</button>
+        <button class="primary mw-hover" id="btnSeeResults">See My Results</button>
+        <button class="pill mw-hover" id="btnDoneHome">Pick Another Room</button>
       </div>
     </div>
     <div class="controls">
-      <button class="cbtn small undo" id="btnUndo" title="Undo (Backspace)" aria-label="Undo">&#8630;</button>
-      <button class="cbtn no" id="btnNo" title="No (Left Arrow)" aria-label="No">&#10005;</button>
-      <button class="cbtn love" id="btnLove" title="Love (Up Arrow)" aria-label="Love">&#9733;</button>
-      <button class="cbtn yes" id="btnYes" title="Like (Right Arrow)" aria-label="Like">&#10084;</button>
+      <button class="cbtn small undo mw-hover" id="btnUndo" title="Undo (Backspace)" aria-label="Undo">&#8630;</button>
+      <button class="cbtn no mw-hover" id="btnNo" title="No (Left Arrow)" aria-label="No">&#10005;</button>
+      <button class="cbtn maybe mw-hover" id="btnMaybe" title="Maybe (M)" aria-label="Maybe">?</button>
+      <button class="cbtn love mw-hover" id="btnLove" title="Love (L)" aria-label="Love">&#10084;&#65038;</button>
+      <button class="cbtn yes mw-hover" id="btnYes" title="Yes (Right Arrow)" aria-label="Yes">&#10003;</button>
     </div>
-    <div class="hint">Rate Only the Named Feature &middot; Right = Like &middot; Left = No &middot; Up = Love<span class="keys"> &middot; Arrow Keys Work Too</span></div>
+    <div class="hint">Rate Only the Named Feature &middot; Swipe Right = Yes &middot; Swipe Left = No &middot; Tap Maybe or Love<span class="keys"> &middot; Keys: &larr; No, &rarr; Yes, M Maybe, L Love</span></div>
   </main>
 
   <section id="results">
     <h2 id="resTitle">Your Results</h2>
     <div class="actions">
-      <button class="primary" id="btnCopy">Copy Results</button>
-      <button class="pill" id="btnJson">Download JSON</button>
-      <button class="pill" id="btnReset">Start Over</button>
+      <button class="primary mw-hover" id="btnCopy">Copy Results</button>
+      <button class="pill mw-hover" id="btnJson">Download JSON</button>
+      <button class="pill mw-hover" id="btnReset">Start Over</button>
     </div>
     <div class="copybox" id="copyBox"><p>Your browser blocked automatic copying. Tap the text, choose Select All, then Copy.</p><textarea id="copyFallback" readonly aria-label="Results text"></textarea></div>
     <div class="summary" id="summary"></div>
@@ -245,18 +261,19 @@ textarea#copyFallback{width:100%;height:200px;display:block;background:#111;colo
     <div class="example"><b>Rate This:</b> The Floating Walnut Desk<small>Ignore the Rest of the Room</small></div>
     <h3>How to Swipe</h3>
     <div class="moves">
-      <div class="mv"><span class="ic" style="color:var(--yes);border-color:var(--yes)">&#10084;</span><div><h3>Swipe Right = Like</h3><p>You would want this feature.</p></div></div>
+      <div class="mv"><span class="ic" style="color:var(--yes);border-color:var(--yes)">&#10003;</span><div><h3>Swipe Right = Yes</h3><p>You would want this feature.</p></div></div>
       <div class="mv"><span class="ic" style="color:var(--no);border-color:var(--no)">&#10005;</span><div><h3>Swipe Left = No</h3><p>Not for you.</p></div></div>
-      <div class="mv"><span class="ic" style="color:var(--love);border-color:var(--love)">&#9733;</span><div><h3>Swipe Up = Love</h3><p>A must-have for your dream home.</p></div></div>
+      <div class="mv"><span class="ic" style="color:var(--maybe);border-color:var(--maybe)">?</span><div><h3>Tap Maybe</h3><p>Not sure yet, or it depends.</p></div></div>
+      <div class="mv"><span class="ic" style="color:var(--love);border-color:var(--love)">&#10084;&#65038;</span><div><h3>Tap Love</h3><p>A must-have for your dream home.</p></div></div>
     </div>
-    <p>Pick a room from the home screen. The buttons under the card work too, &#8630; undoes, and progress saves automatically for every deck.</p>
-    <button class="primary" id="btnStart">Start Swiping</button>
+    <p>Pick a room from the home screen. The buttons under the card are No, Maybe, Love, and Yes; &#8630; undoes. On a keyboard, use the left and right arrows, M for Maybe, and L for Love, and progress saves automatically for every deck.</p>
+    <button class="primary mw-hover" id="btnStart">Start Swiping</button>
   </div>
 </div>
 
 <script>
 const DECKS = [{"id": "overall", "title": "Overall Style", "blurb": "The original 100 cards across the whole house.", "count": 100, "key": "blueprintSwipe.v1", "group": "overall", "ready": true, "cover": "img/overall/c009.jpg"}, {"id": "office", "title": "Office and Music Studio", "blurb": "Desk, walls, light, and the music rig in your loft-like workroom.", "count": 22, "key": "blueprintSwipe.deck.office.v1", "group": "first", "ready": true, "cover": "img/office/office-19.jpg"}, {"id": "gym", "title": "Gym", "blurb": "An athletic training room with a rig, Pilates Cadillac, and garden air.", "count": 18, "key": "blueprintSwipe.deck.gym.v1", "group": "first", "ready": true, "cover": "img/gym/gym-14.jpg"}, {"id": "wellness", "title": "Sauna and Wellness", "blurb": "Sauna, steam, cold plunge, and the outdoor shower.", "count": 20, "key": "blueprintSwipe.deck.wellness.v1", "group": "first", "ready": true, "cover": "img/wellness/wellness-01.jpg"}, {"id": "kitchen", "title": "Kitchen", "blurb": "Cabinets, stone, hardware, range, and island, one decision at a time.", "count": 21, "key": "blueprintSwipe.deck.kitchen.v1", "group": "first", "ready": true, "cover": "img/kitchen/kitchen-17.jpg"}, {"id": "living", "title": "Living and Conversation Pit", "blurb": "The sunken pit, seating, fireplace, and the tatami room.", "count": 14, "key": "blueprintSwipe.deck.living.v1", "group": "more", "ready": true, "cover": "img/living/living-00.jpg"}, {"id": "master", "title": "Master Suite", "blurb": "The bed, walls, light, and the view from your bedroom.", "count": 15, "key": "blueprintSwipe.deck.master.v1", "group": "more", "ready": true, "cover": "img/master/master-06.jpg"}, {"id": "bath", "title": "Master Bath", "blurb": "The tub, shower, vanity, and stone of your bathroom.", "count": 14, "key": "blueprintSwipe.deck.bath.v1", "group": "more", "ready": true, "cover": "img/bath/bath-00.jpg"}, {"id": "kids", "title": "Kids' Rooms", "blurb": "Beds, storage, and play features for the children's rooms.", "count": 12, "key": "blueprintSwipe.deck.kids.v1", "group": "more", "ready": true, "cover": "img/kids/kids-08.jpg"}, {"id": "courtyard", "title": "Courtyard and Engawa", "blurb": "The central courtyard, the engawa veranda, and the eaves.", "count": 18, "key": "blueprintSwipe.deck.courtyard.v1", "group": "more", "ready": true, "cover": "img/courtyard/courtyard-00.jpg"}, {"id": "pool", "title": "Pool and Landscape", "blurb": "The pool, its edges, decking, and the wider garden.", "count": 15, "key": "blueprintSwipe.deck.pool.v1", "group": "more", "ready": true, "cover": "img/pool/pool-01.jpg"}, {"id": "entry", "title": "Entry and Exterior", "blurb": "Arrival, front door, walls, roof, and the street face.", "count": 19, "key": "blueprintSwipe.deck.entry.v1", "group": "more", "ready": true, "cover": "img/entry/entry-08.jpg"}];
-const VER = "1791598324";
+const VER = "1791636308";
 const INTRO_KEY = "blueprintSwipe.introSeen.v1";
 const HINT_CARDS = 3;
 const $ = s => document.querySelector(s);
@@ -328,8 +345,8 @@ function renderHome(){
   const groups = [["Overall", d=>d.group==="overall"],["Build First", d=>d.group==="first"],["More Rooms", d=>d.group==="more"]];
   $("#deckList").innerHTML = groups.map(([name,f]) => { const list = DECKS.filter(f); if(!list.length) return "";
     return `<div class="sect">${name}</div><div class="decks">` + list.map(d => { const p = progressOf(d);
-      return `<button class="deckbtn${d.ready?"":" soon"}" data-deck="${d.id}"><img src="${d.cover}" alt="" loading="lazy"><span class="dt"><h3>${esc(d.title)}</h3><p>${esc(d.blurb)}</p>
-      <div class="bar"><div style="width:${100*p.n/d.count}%"></div></div><span class="pc">${d.ready?`<b>${p.n} / ${d.count}</b> Rated${p.n>=d.count?" · Complete":""}${p.love?` · ★ ${p.love}`:""}`:"Coming Soon"}</span></span></button>`}).join("") + `</div>`; }).join("");
+      return `<button class="deckbtn mw-hover${d.ready?"":" soon"}" data-deck="${d.id}"><img src="${d.cover}" alt="" loading="lazy"><span class="dt"><h3>${esc(d.title)}</h3><p>${esc(d.blurb)}</p>
+      <div class="bar"><div style="width:${100*p.n/d.count}%"></div></div><span class="pc">${d.ready?`<b>${p.n} / ${d.count}</b> Rated${p.n>=d.count?" · Complete":""}${p.love?` · ♥ ${p.love}`:""}`:"Coming Soon"}</span></span></button>`}).join("") + `</div>`; }).join("");
   $("#deckList").querySelectorAll(".deckbtn").forEach(b => b.onclick = () => { const id=b.dataset.deck, p=progressOf(deckInfo(id)); go(p.n>=deckInfo(id).count ? `#/${id}/results` : `#/${id}`); });
   const tot = DECKS.filter(d=>d.ready).reduce((a,d)=>a+d.count,0), done = DECKS.filter(d=>d.ready).reduce((a,d)=>a+progressOf(d).n,0);
   $("#allSummary").textContent = `${done} of ${tot} cards rated across ${DECKS.filter(d=>d.ready).length} decks.`;
@@ -341,10 +358,10 @@ function cardEl(c){
   const el = document.createElement("div");
   el.className = "card" + (c.fit ? " fit" : ""); el.dataset.id = c.id;
   const rated = Object.keys(state.verdicts).length;
-  const hint = rated < HINT_CARDS ? `<div class="firsthint"><span class="r">Right = Like</span> · <span class="l">Left = No</span> · <span class="u">Up = Love</span></div>` : "";
+  const hint = rated < HINT_CARDS ? `<div class="firsthint"><span class="r">Right = Yes</span> · <span class="l">Left = No</span> · <span class="u">Tap Maybe or Love</span></div>` : "";
   el.innerHTML = `<div class="ask"><div class="q"><b>Rate This:</b> ${c.focus}</div><div class="ig">${c.ignore}</div></div>
   <div class="pic">${c.fit ? `<img class="bg" alt="" src="${c.img}">` : ""}<img class="fg" alt="${esc(c.focus)}" src="${c.img}">${hint}${c.ai?`<div class="ai">AI Concept</div>`:""}
-  <div class="stamp yes">LIKE</div><div class="stamp no">NOPE</div><div class="stamp love">LOVE</div>
+  <div class="stamp yes">YES</div><div class="stamp no">NOPE</div><div class="stamp maybe">MAYBE</div><div class="stamp love">LOVE</div>
   <div class="info"><span class="tag">${CATEGORIES[c.cat]}</span><h2>${c.title}</h2><p>${c.caption}</p></div></div>`;
   return el;
 }
@@ -364,8 +381,8 @@ function render(){
   $("#prog").style.width = (100*n/CARDS.length) + "%";
   $("#count").textContent = `${n} / ${CARDS.length} Rated`;
   const v = Object.values(state.verdicts);
-  $("#tally").textContent = `★ ${v.filter(x=>x==="love").length}  ·  ♥ ${v.filter(x=>x==="yes").length}  ·  ✕ ${v.filter(x=>x==="no").length}`;
-  ["#btnNo","#btnYes","#btnLove"].forEach(s => $(s).disabled = !rem.length);
+  $("#tally").textContent = `♥ ${v.filter(x=>x==="love").length}  ·  ✓ ${v.filter(x=>x==="yes").length}  ·  ? ${v.filter(x=>x==="maybe").length}  ·  ✕ ${v.filter(x=>x==="no").length}`;
+  ["#btnNo","#btnYes","#btnLove","#btnMaybe"].forEach(s => $(s).disabled = !rem.length);
   $("#btnUndo").disabled = !state.history.length;
 }
 function topCard(){ const els = stage.querySelectorAll(".card"); return els[els.length-1]; }
@@ -373,7 +390,7 @@ function decide(verdict){
   const el = topCard(); if (!el || el.dataset.leaving) return;
   el.dataset.leaving = 1;
   const id = el.dataset.id, W = window.innerWidth;
-  const t = verdict === "yes" ? `translate(${W}px,40px) rotate(28deg)` : verdict === "no" ? `translate(${-W}px,40px) rotate(-28deg)` : `translate(0,${-window.innerHeight}px) rotate(-4deg)`;
+  const t = verdict === "yes" ? `translate(${W}px,40px) rotate(28deg)` : verdict === "no" ? `translate(${-W}px,40px) rotate(-28deg)` : verdict === "maybe" ? `translate(0,${window.innerHeight*0.6}px) scale(.85)` : `translate(0,${-window.innerHeight}px) rotate(-4deg)`;
   el.querySelector(".stamp."+verdict).style.opacity = 1;
   el.style.transition = "transform .35s ease, opacity .35s ease";
   el.style.transform = t; el.style.opacity = 0;
@@ -389,22 +406,19 @@ function undo(){
 }
 function attachDrag(el){
   let sx=0, sy=0, dx=0, dy=0, dragging=false;
-  const stamps = {yes: el.querySelector(".stamp.yes"), no: el.querySelector(".stamp.no"), love: el.querySelector(".stamp.love")};
+  const stamps = {yes: el.querySelector(".stamp.yes"), no: el.querySelector(".stamp.no")};
   el.addEventListener("pointerdown", e => { dragging=true; sx=e.clientX; sy=e.clientY; dx=dy=0; el.setPointerCapture(e.pointerId); el.style.transition="none"; });
   el.addEventListener("pointermove", e => {
     if (!dragging) return;
     dx = e.clientX - sx; dy = e.clientY - sy;
     el.style.transform = `translate(${dx}px,${dy}px) rotate(${dx/18}deg)`;
-    const up = -dy > Math.abs(dx);
-    stamps.yes.style.opacity = !up && dx > 0 ? Math.min(dx/100,1) : 0;
-    stamps.no.style.opacity = !up && dx < 0 ? Math.min(-dx/100,1) : 0;
-    stamps.love.style.opacity = up ? Math.min(-dy/100,1) : 0;
+    stamps.yes.style.opacity = dx > 0 ? Math.min(dx/100,1) : 0;
+    stamps.no.style.opacity = dx < 0 ? Math.min(-dx/100,1) : 0;
   });
   const end = () => {
     if (!dragging) return; dragging=false;
     const T = Math.min(110, el.offsetWidth*0.28);
-    if (-dy > T && -dy > Math.abs(dx)) decide("love");
-    else if (dx > T) decide("yes");
+    if (dx > T) decide("yes");
     else if (dx < -T) decide("no");
     else { el.style.transition="transform .25s ease"; el.style.transform=""; Object.values(stamps).forEach(s=>s.style.opacity=0); }
   };
@@ -412,16 +426,16 @@ function attachDrag(el){
 }
 
 /* ---------- Results ---------- */
-const SCORE = {love:2, yes:1, no:0};
-const VLABEL = {love:"Love", yes:"Like", no:"No"};
+const SCORE = {love:3, yes:2, maybe:1, no:0};
+const VLABEL = {love:"Love", yes:"Yes", maybe:"Maybe", no:"No"};
 function computeResults(cards=CARDS, cats=CATEGORIES, st=state){
   return Object.keys(cats).map(k => {
     const cs = cards.filter(c => c.cat === k), V = st ? st.verdicts : {};
     const rated = cs.filter(c => V[c.id]);
-    const love = cs.filter(c => V[c.id]==="love").length, yes = cs.filter(c => V[c.id]==="yes").length, no = cs.filter(c => V[c.id]==="no").length;
+    const love = cs.filter(c => V[c.id]==="love").length, yes = cs.filter(c => V[c.id]==="yes").length, no = cs.filter(c => V[c.id]==="no").length, maybe = cs.filter(c => V[c.id]==="maybe").length;
     const ranked = cs.slice().sort((a,b) => (SCORE[V[b.id]]??-1) - (SCORE[V[a.id]]??-1));
-    const affinity = rated.length ? (2*love + yes) / (2*rated.length) : 0;
-    return {key:k, name:cats[k], total:cs.length, rated:rated.length, love, yes, no, affinity, ranked};
+    const affinity = rated.length ? (3*love + 2*yes + maybe) / (3*rated.length) : 0;
+    return {key:k, name:cats[k], total:cs.length, rated:rated.length, love, yes, maybe, no, affinity, ranked};
   });
 }
 function showResults(fromRoute){
@@ -429,17 +443,18 @@ function showResults(fromRoute){
   setView("results");
   const cats = computeResults(), info = deckInfo(DECK);
   $("#resTitle").textContent = DECK==="overall" ? "Your Overall Style Profile" : `Your ${info.title} Picks`;
-  const loved = CARDS.filter(c => state.verdicts[c.id]==="love"), liked = CARDS.filter(c => state.verdicts[c.id]==="yes");
+  const loved = CARDS.filter(c => state.verdicts[c.id]==="love"), liked = CARDS.filter(c => state.verdicts[c.id]==="yes"), maybes = CARDS.filter(c => state.verdicts[c.id]==="maybe");
   const rated = Object.keys(state.verdicts).length;
   const catRank = cats.filter(c=>c.rated).slice().sort((a,b)=>b.affinity-a.affinity);
   $("#summary").innerHTML = `<b>${rated}</b> of ${CARDS.length} cards rated${rated<CARDS.length?" (keep swiping any time; progress is saved)":""}.<br>
    <b>Loved:</b> ${loved.length?loved.map(c=>esc(c.title)).join(", "):"Nothing starred yet"}<br>
-   <b>Liked:</b> ${liked.length?liked.map(c=>esc(c.title)).join(", "):"None yet"}<br>
+   <b>Yes:</b> ${liked.length?liked.map(c=>esc(c.title)).join(", "):"None yet"}<br>
+   <b>Maybe:</b> ${maybes.length?maybes.map(c=>esc(c.title)).join(", "):"None"}<br>
    <b>Most Enthusiastic ${DECK==="overall"?"Categories":"Decisions"}:</b> ${catRank.slice(0,3).map(c=>`${c.name} (${Math.round(c.affinity*100)}%)`).join(", ")||"—"}`;
   $("#cats").innerHTML = cats.map(c => `
-    <div class="cat">
-      <div class="cathead"><h3>${c.name}</h3><span class="counts">★ ${c.love} · ♥ ${c.yes} · ✕ ${c.no}${c.rated<c.total?` · ${c.total-c.rated} Unrated`:""}</span></div>
-      <div class="bar" style="display:flex"><div class="l" style="width:${100*c.love/c.total}%"></div><div style="width:${100*c.yes/c.total}%"></div></div>
+    <div class="cat mw-hover">
+      <div class="cathead"><h3>${c.name}</h3><span class="counts">♥ ${c.love} · ✓ ${c.yes} · ? ${c.maybe} · ✕ ${c.no}${c.rated<c.total?` · ${c.total-c.rated} Unrated`:""}</span></div>
+      <div class="bar" style="display:flex"><div class="l" style="width:${100*c.love/c.total}%"></div><div style="width:${100*c.yes/c.total}%"></div><div class="m" style="width:${100*c.maybe/c.total}%"></div></div>
       <div class="items">${c.ranked.map(card => { const v = state.verdicts[card.id]||"skip"; return `
         <div class="item ${v}"><img src="${card.img}" alt="" loading="lazy"><span class="t">${card.title}</span><span class="v ${v}">${v==="skip"?"Unrated":VLABEL[v]}</span></div>`}).join("")}
       </div>
@@ -450,20 +465,20 @@ function deckText(id){
   const d = DATA[id], st = readState(id, d.cards) || {verdicts:{}}, info = deckInfo(id);
   const lines = [`=== ${info.title.toUpperCase()} (${Object.keys(st.verdicts).length}/${d.cards.length} rated) ===`];
   computeResults(d.cards, d.cats, st).forEach(c => {
-    lines.push("", `## ${c.name}: ${c.love} Love, ${c.yes} Like, ${c.no} No`);
+    lines.push("", `## ${c.name}: ${c.love} Love, ${c.yes} Yes, ${c.maybe} Maybe, ${c.no} No`);
     c.ranked.forEach(card => lines.push(`${(VLABEL[st.verdicts[card.id]]||"Unrated").toUpperCase()}: ${card.title} (${card.focus})`));
   });
   return lines.join("\n");
 }
-function plainText(){ return [`BLUEPRINT SWIPE RESULTS (${new Date().toISOString().slice(0,10)})`, "Key: LOVE > LIKE > NO", "", deckText(DECK)].join("\n"); }
+function plainText(){ return [`BLUEPRINT SWIPE RESULTS (${new Date().toISOString().slice(0,10)})`, "Key: LOVE > YES > MAYBE > NO", "", deckText(DECK)].join("\n"); }
 function allText(){
   const ids = DECKS.filter(d=>d.ready && DATA[d.id]).map(d=>d.id);
-  return [`BLUEPRINT SWIPE RESULTS, ALL DECKS (${new Date().toISOString().slice(0,10)})`, "Key: LOVE > LIKE > NO"].concat(ids.flatMap(id => ["", deckText(id)])).join("\n");
+  return [`BLUEPRINT SWIPE RESULTS, ALL DECKS (${new Date().toISOString().slice(0,10)})`, "Key: LOVE > YES > MAYBE > NO"].concat(ids.flatMap(id => ["", deckText(id)])).join("\n");
 }
 function deckJson(id){
   const d = DATA[id], st = readState(id, d.cards) || {verdicts:{}}, info = deckInfo(id);
   return {deck:id, title:info.title, started:st.started||null, rated:Object.keys(st.verdicts).length, total:d.cards.length,
-    summary: computeResults(d.cards, d.cats, st).map(c=>({decision:c.name, love:c.love, yes:c.yes, no:c.no, unrated:c.total-c.rated})),
+    summary: computeResults(d.cards, d.cats, st).map(c=>({decision:c.name, love:c.love, yes:c.yes, maybe:c.maybe, no:c.no, unrated:c.total-c.rated})),
     cards: d.cards.map(c=>({id:c.id, decision:d.cats[c.cat], title:c.title, focus:c.focus, caption:c.caption, aiConcept:!!c.ai, verdict:st.verdicts[c.id]||null}))};
 }
 function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1800); }
@@ -514,6 +529,7 @@ function credits(){
 $("#btnNo").onclick = () => decide("no");
 $("#btnYes").onclick = () => decide("yes");
 $("#btnLove").onclick = () => decide("love");
+$("#btnMaybe").onclick = () => decide("maybe");
 $("#btnUndo").onclick = undo;
 $("#btnResults").onclick = () => showResults();
 $("#btnSeeResults").onclick = () => showResults();
@@ -536,7 +552,8 @@ document.addEventListener("keydown", e => {
   if ($("#swipe").style.display==="none" && !($("#results").style.display==="block" && e.key==="Backspace")) return;
   if (e.key==="ArrowLeft") decide("no");
   else if (e.key==="ArrowRight") decide("yes");
-  else if (e.key==="ArrowUp") { e.preventDefault(); decide("love"); }
+  else if (e.key==="m" || e.key==="M") decide("maybe");
+  else if (e.key==="l" || e.key==="L") decide("love");
   else if (e.key==="Backspace" || (e.key==="z" && (e.metaKey||e.ctrlKey))) { e.preventDefault(); undo(); }
 });
 route(); preloadAll();
