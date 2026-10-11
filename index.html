@@ -274,6 +274,16 @@ button.item:focus-visible{outline:2px solid #171717}
 .itembody{padding:4px 0 10px 56px;display:flex;flex-direction:column;align-items:flex-start;gap:6px}.itembody[hidden]{display:none}
 .itembody .notetext{margin:0;font-size:14px;color:#0a0a0a;white-space:pre-wrap}
 </style>
+<style>
+/* Header fit: back button never shrinks under the deck title */
+.toprow>div:first-child{flex:1;min-width:0}
+.pill.back{flex:none}
+#deckName{overflow-wrap:anywhere;min-width:0}
+@media (max-width:400px){#deckName{font-size:18px;line-height:1.1}.pill.back{padding:8px 10px;letter-spacing:.06em}}
+/* Results sort */
+.sortrow{display:flex;align-items:center;gap:8px;margin:10px 0}
+.sortrow select{min-height:44px;border:2px solid #171717;border-radius:0;background:#fff;color:#0a0a0a;font:600 14px var(--body);padding:0 8px}
+</style>
 <!--mw-polish--><style id="mw-polish">
 /* MW polish layer: /workspace/ops/brand/app-polish-spec.md (Oct 10, 2026). Light mode, brand motion, 44px targets. */
 :root{--mw-ease:cubic-bezier(.2,.8,.2,1);--mw-dur:180ms;--mw-ink:#171717;--mw-grey:#737373;--mw-line:#E5E5E5;--mw-jungle:#0B6E4F;--mw-lagoon:#05668D;--mw-terra:#C1502E}
@@ -354,6 +364,7 @@ html{color-scheme:light only}
     </div>
     <div class="copybox" id="copyBox"><p>Your browser blocked automatic copying. Tap the text, choose Select All, then Copy.</p><textarea id="copyFallback" readonly aria-label="Results text"></textarea></div>
     <div class="summary" id="summary"></div>
+    <label class="sortrow label">Sort Rows <select id="rowSort" aria-label="Sort Results Rows"><option value="rank">Ranked (Love First)</option><option value="az">Title A-Z</option></select></label>
     <div id="cats"></div>
     <details id="creditsBox">
       <summary>Photo Credits for This Deck</summary>
@@ -382,7 +393,7 @@ html{color-scheme:light only}
 
 <script>
 const DECKS = [{"id": "overall", "title": "Overall Style", "blurb": "The original 100 cards across the whole house.", "count": 100, "key": "blueprintSwipe.v1", "group": "overall", "ready": true, "cover": "img/overall/c009.jpg"}, {"id": "office", "title": "Office and Music Studio", "blurb": "Desk, walls, light, and the music rig in your loft-like workroom.", "count": 22, "key": "blueprintSwipe.deck.office.v1", "group": "first", "ready": true, "cover": "img/office/office-19.jpg"}, {"id": "gym", "title": "Gym", "blurb": "An athletic training room with a rig, Pilates Cadillac, and garden air.", "count": 18, "key": "blueprintSwipe.deck.gym.v1", "group": "first", "ready": true, "cover": "img/gym/gym-14.jpg"}, {"id": "wellness", "title": "Sauna and Wellness", "blurb": "Sauna, steam, cold plunge, and the outdoor shower.", "count": 20, "key": "blueprintSwipe.deck.wellness.v1", "group": "first", "ready": true, "cover": "img/wellness/wellness-01.jpg"}, {"id": "kitchen", "title": "Kitchen", "blurb": "Cabinets, stone, hardware, range, and island, one decision at a time.", "count": 21, "key": "blueprintSwipe.deck.kitchen.v1", "group": "first", "ready": true, "cover": "img/kitchen/kitchen-17.jpg"}, {"id": "living", "title": "Living and Conversation Pit", "blurb": "The sunken pit, seating, fireplace, and the tatami room.", "count": 14, "key": "blueprintSwipe.deck.living.v1", "group": "more", "ready": true, "cover": "img/living/living-00.jpg"}, {"id": "master", "title": "Master Suite", "blurb": "The bed, walls, light, and the view from your bedroom.", "count": 15, "key": "blueprintSwipe.deck.master.v1", "group": "more", "ready": true, "cover": "img/master/master-06.jpg"}, {"id": "bath", "title": "Master Bath", "blurb": "The tub, shower, vanity, and stone of your bathroom.", "count": 14, "key": "blueprintSwipe.deck.bath.v1", "group": "more", "ready": true, "cover": "img/bath/bath-00.jpg"}, {"id": "kids", "title": "Kids' Rooms", "blurb": "Beds, storage, and play features for the children's rooms.", "count": 12, "key": "blueprintSwipe.deck.kids.v1", "group": "more", "ready": true, "cover": "img/kids/kids-08.jpg"}, {"id": "courtyard", "title": "Courtyard and Engawa", "blurb": "The central courtyard, the engawa veranda, and the eaves.", "count": 18, "key": "blueprintSwipe.deck.courtyard.v1", "group": "more", "ready": true, "cover": "img/courtyard/courtyard-00.jpg"}, {"id": "pool", "title": "Pool and Landscape", "blurb": "The pool, its edges, decking, and the wider garden.", "count": 15, "key": "blueprintSwipe.deck.pool.v1", "group": "more", "ready": true, "cover": "img/pool/pool-01.jpg"}, {"id": "entry", "title": "Entry and Exterior", "blurb": "Arrival, front door, walls, roof, and the street face.", "count": 19, "key": "blueprintSwipe.deck.entry.v1", "group": "more", "ready": true, "cover": "img/entry/entry-08.jpg"}];
-const VER = "1791682350";
+const VER = "1791682626";
 const INTRO_KEY = "blueprintSwipe.introSeen.v1";
 const HINT_CARDS = 3;
 const $ = s => document.querySelector(s);
@@ -586,13 +597,14 @@ function showResults(fromRoute){
     <div class="cat mw-hover">
       <div class="cathead"><h3>${c.name}</h3><span class="counts">♥ ${c.love} · ✓ ${c.yes} · ? ${c.maybe} · ✕ ${c.no}${c.rated<c.total?` · ${c.total-c.rated} Unrated`:""}</span></div>
       <div class="bar" style="display:flex"><div class="l" style="width:${100*c.love/c.total}%"></div><div style="width:${100*c.yes/c.total}%"></div><div class="m" style="width:${100*c.maybe/c.total}%"></div></div>
-      <div class="items">${c.ranked.map(card => { const v = state.verdicts[card.id]||"skip", n = state.notes && state.notes[card.id], open = OPENROWS.has(card.id); return `
+      <div class="items">${(ROWSORT==="az" ? c.ranked.slice().sort((x,y)=>String(x.title).localeCompare(String(y.title))) : c.ranked).map(card => { const v = state.verdicts[card.id]||"skip", n = state.notes && state.notes[card.id], open = OPENROWS.has(card.id); return `
         <div class="itemwrap" data-id="${card.id}"><button class="item ${v}" aria-expanded="${open}"><img src="${card.img}" alt="" loading="lazy"><span class="t">${card.title}</span>${n?`<span class="noteicon" aria-label="Has Note" title="Has Note">✎</span>`:""}<span class="v ${v}">${v==="skip"?"Unrated":VLABEL[v]}</span></button>
         <div class="itembody"${open?"":" hidden"}>${n?`<p class="notetext">${esc(n.note)}</p>`:""}<textarea class="rownote" maxlength="1000" rows="2" placeholder="Add a note" aria-label="Note for ${esc(card.title)}">${esc(n?n.note:"")}</textarea><button class="pill savenote mw-hover">Save Note</button></div></div>`}).join("")}
       </div>
     </div>`).join("");
 }
-const OPENROWS = new Set();
+const OPENROWS = new Set(); let ROWSORT = "rank";
+$("#rowSort").onchange = e => { ROWSORT = e.target.value; showResults(true); };
 $("#cats").addEventListener("click", e => {
   const w = e.target.closest(".itemwrap"); if (!w) return; const id = w.dataset.id;
   if (e.target.closest(".savenote")) { setNote(id, w.querySelector(".rownote").value); save(); toast(state.notes&&state.notes[id] ? "Note Saved" : "Note Cleared"); showResults(true); return; }
