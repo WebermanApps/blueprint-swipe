@@ -257,7 +257,23 @@ html.lock .sharebar{padding:4px 0 calc(6px + env(safe-area-inset-bottom))}
 .skip:disabled{opacity:.35}
 @media (orientation:landscape) and (max-height:520px){.skiprow{margin:0}}
 </style>
-
+<style>
+/* Notes on Votes */
+.card .askrow{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.notebtn{flex:none;min-height:44px;min-width:44px;padding:4px 10px;background:#fff;border:2px solid #a3a3a3;border-radius:0;color:#737373;font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;touch-action:manipulation}
+.notebtn.has{border-color:var(--ink);color:var(--ink)}.notebtn:hover{background:#171717;border-color:#171717;color:#fafafa}
+.card .notepanel{position:absolute;left:10px;right:10px;top:var(--notetop,92px);z-index:5;background:#fff;border:2px solid #171717;padding:10px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 24px rgba(10,10,10,.18);user-select:text;-webkit-user-select:text;touch-action:auto}
+.card .notepanel[hidden]{display:none}
+.card .notepanel textarea,.rownote{width:100%;box-sizing:border-box;font:16px/1.4 var(--body);border:2px solid #171717;border-radius:0;padding:8px;resize:vertical;background:#fff;color:#0a0a0a}
+.card .notepanel .pill{align-self:flex-end}
+.card.behind .notebtn,.card.behind2 .notebtn{visibility:hidden}
+.itemwrap{display:flex;flex-direction:column}
+button.item{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;font-size:14px;min-height:44px;width:100%;cursor:pointer;padding:2px 0}
+button.item:focus-visible{outline:2px solid #171717}
+.item .noteicon{flex:none;font-size:15px;color:#171717}
+.itembody{padding:4px 0 10px 56px;display:flex;flex-direction:column;align-items:flex-start;gap:6px}.itembody[hidden]{display:none}
+.itembody .notetext{margin:0;font-size:14px;color:#0a0a0a;white-space:pre-wrap}
+</style>
 <!--mw-polish--><style id="mw-polish">
 /* MW polish layer: /workspace/ops/brand/app-polish-spec.md (Oct 10, 2026). Light mode, brand motion, 44px targets. */
 :root{--mw-ease:cubic-bezier(.2,.8,.2,1);--mw-dur:180ms;--mw-ink:#171717;--mw-grey:#737373;--mw-line:#E5E5E5;--mw-jungle:#0B6E4F;--mw-lagoon:#05668D;--mw-terra:#C1502E}
@@ -366,7 +382,7 @@ html{color-scheme:light only}
 
 <script>
 const DECKS = [{"id": "overall", "title": "Overall Style", "blurb": "The original 100 cards across the whole house.", "count": 100, "key": "blueprintSwipe.v1", "group": "overall", "ready": true, "cover": "img/overall/c009.jpg"}, {"id": "office", "title": "Office and Music Studio", "blurb": "Desk, walls, light, and the music rig in your loft-like workroom.", "count": 22, "key": "blueprintSwipe.deck.office.v1", "group": "first", "ready": true, "cover": "img/office/office-19.jpg"}, {"id": "gym", "title": "Gym", "blurb": "An athletic training room with a rig, Pilates Cadillac, and garden air.", "count": 18, "key": "blueprintSwipe.deck.gym.v1", "group": "first", "ready": true, "cover": "img/gym/gym-14.jpg"}, {"id": "wellness", "title": "Sauna and Wellness", "blurb": "Sauna, steam, cold plunge, and the outdoor shower.", "count": 20, "key": "blueprintSwipe.deck.wellness.v1", "group": "first", "ready": true, "cover": "img/wellness/wellness-01.jpg"}, {"id": "kitchen", "title": "Kitchen", "blurb": "Cabinets, stone, hardware, range, and island, one decision at a time.", "count": 21, "key": "blueprintSwipe.deck.kitchen.v1", "group": "first", "ready": true, "cover": "img/kitchen/kitchen-17.jpg"}, {"id": "living", "title": "Living and Conversation Pit", "blurb": "The sunken pit, seating, fireplace, and the tatami room.", "count": 14, "key": "blueprintSwipe.deck.living.v1", "group": "more", "ready": true, "cover": "img/living/living-00.jpg"}, {"id": "master", "title": "Master Suite", "blurb": "The bed, walls, light, and the view from your bedroom.", "count": 15, "key": "blueprintSwipe.deck.master.v1", "group": "more", "ready": true, "cover": "img/master/master-06.jpg"}, {"id": "bath", "title": "Master Bath", "blurb": "The tub, shower, vanity, and stone of your bathroom.", "count": 14, "key": "blueprintSwipe.deck.bath.v1", "group": "more", "ready": true, "cover": "img/bath/bath-00.jpg"}, {"id": "kids", "title": "Kids' Rooms", "blurb": "Beds, storage, and play features for the children's rooms.", "count": 12, "key": "blueprintSwipe.deck.kids.v1", "group": "more", "ready": true, "cover": "img/kids/kids-08.jpg"}, {"id": "courtyard", "title": "Courtyard and Engawa", "blurb": "The central courtyard, the engawa veranda, and the eaves.", "count": 18, "key": "blueprintSwipe.deck.courtyard.v1", "group": "more", "ready": true, "cover": "img/courtyard/courtyard-00.jpg"}, {"id": "pool", "title": "Pool and Landscape", "blurb": "The pool, its edges, decking, and the wider garden.", "count": 15, "key": "blueprintSwipe.deck.pool.v1", "group": "more", "ready": true, "cover": "img/pool/pool-01.jpg"}, {"id": "entry", "title": "Entry and Exterior", "blurb": "Arrival, front door, walls, roof, and the street face.", "count": 19, "key": "blueprintSwipe.deck.entry.v1", "group": "more", "ready": true, "cover": "img/entry/entry-08.jpg"}];
-const VER = "1791637890";
+const VER = "1791682350";
 const INTRO_KEY = "blueprintSwipe.introSeen.v1";
 const HINT_CARDS = 3;
 const $ = s => document.querySelector(s);
@@ -452,14 +468,17 @@ function cardEl(c){
   el.className = "card" + (c.fit ? " fit" : ""); el.dataset.id = c.id;
   const rated = Object.keys(state.verdicts).length;
   const hint = rated < HINT_CARDS ? `<div class="firsthint"><span class="r">Right = Yes</span> · <span class="l">Left = No</span> · <span class="u">Tap Maybe or Love</span></div>` : "";
-  el.innerHTML = `<div class="ask"><div class="q"><b>Rate This:</b> ${c.focus}</div><div class="ig">${c.ignore}</div></div>
+  const hasNote = !!(state.notes && state.notes[c.id]);
+  el.innerHTML = `<div class="ask"><div class="askrow"><div><div class="q"><b>Rate This:</b> ${c.focus}</div><div class="ig">${c.ignore}</div></div>
+  <button class="notebtn mw-hover${hasNote?" has":""}" aria-expanded="false" aria-label="${hasNote?"Edit Note":"Add Note"}">${hasNote?"✎ Note":"Add Note"}</button></div></div>
+  <div class="notepanel" hidden><textarea maxlength="1000" rows="3" placeholder="Optional note. Vote any time; it saves with your answer." aria-label="Note">${esc(hasNote?state.notes[c.id].note:"")}</textarea><button class="pill notedone mw-hover">Done</button></div>
   <div class="pic">${c.fit ? `<img class="bg" alt="" src="${c.img}">` : ""}<img class="fg" alt="${esc(c.focus)}" src="${c.img}">${hint}${c.ai?`<div class="ai">AI Concept</div>`:""}
   <div class="stamp yes">YES</div><div class="stamp no">NOPE</div><div class="stamp maybe">MAYBE</div><div class="stamp love">LOVE</div>
   </div><div class="info"><span class="tag">${CATEGORIES[c.cat]}</span><h2>${c.title}</h2><p>${c.caption}</p></div>`;
   return el;
 }
 function render(){
-  stage.querySelectorAll(".card").forEach(e => e.remove());
+  stage.querySelectorAll(".card").forEach(e => e.remove()); noteOpen = false;
   const rem = remaining();
   rem.slice(0,3).reverse().forEach((id, i, arr) => {
     const el = cardEl(byId[id]); const depth = arr.length - 1 - i;
@@ -478,11 +497,30 @@ function render(){
   ["#btnNo","#btnYes","#btnLove","#btnMaybe","#btnSkip"].forEach(s => $(s).disabled = !rem.length);
   $("#btnUndo").disabled = !state.history.length;
 }
+/* ---------- Notes on Votes (localStorage only, inside each deck's saved state) ---------- */
+let noteOpen = false;
+function setNote(id, text){
+  state.notes = state.notes || {}; text = String(text||"").trim().slice(0,1000);
+  if (text) state.notes[id] = {note:text, ts:new Date().toISOString()}; else delete state.notes[id];
+}
+function pendingNote(el){ const ta = el && el.querySelector(".notepanel textarea"); return ta ? ta.value : null; }
+function toggleNote(el, open){
+  noteOpen = open; const p = el.querySelector(".notepanel"), b = el.querySelector(".notebtn");
+  p.style.top = (el.querySelector(".ask").offsetHeight + 8) + "px"; p.hidden = !open; b.setAttribute("aria-expanded", open); el.classList.toggle("noting", open);
+  if (open) p.querySelector("textarea").focus({preventScroll:true});
+  else { const t = p.querySelector("textarea").value.trim(); b.textContent = t ? "✎ Note" : "Add Note"; b.classList.toggle("has", !!t); }
+}
+stage.addEventListener("click", e => {
+  const el = e.target.closest(".card"); if (!el || el !== topCard()) return;
+  if (e.target.closest(".notebtn")) toggleNote(el, !noteOpen);
+  else if (e.target.closest(".notedone")) toggleNote(el, false);
+});
 function topCard(){ const els = stage.querySelectorAll(".card"); return els[els.length-1]; }
 function decide(verdict){
   const el = topCard(); if (!el || el.dataset.leaving) return;
   el.dataset.leaving = 1;
-  const id = el.dataset.id, W = window.innerWidth;
+  const id = el.dataset.id, pn = pendingNote(el); if (pn !== null) setNote(id, pn); noteOpen = false;
+  const W = window.innerWidth;
   const t = verdict === "yes" ? `translate(${W}px,40px) rotate(28deg)` : verdict === "no" ? `translate(${-W}px,40px) rotate(-28deg)` : verdict === "maybe" ? `translate(0,${window.innerHeight*0.6}px) scale(.85)` : `translate(0,${-window.innerHeight}px) rotate(-4deg)`;
   el.querySelector(".stamp."+verdict).style.opacity = 1;
   el.style.transition = "transform .35s ease, opacity .35s ease";
@@ -500,7 +538,7 @@ function undo(){
 function attachDrag(el){
   let sx=0, sy=0, dx=0, dy=0, dragging=false;
   const stamps = {yes: el.querySelector(".stamp.yes"), no: el.querySelector(".stamp.no")};
-  el.addEventListener("pointerdown", e => { dragging=true; sx=e.clientX; sy=e.clientY; dx=dy=0; el.setPointerCapture(e.pointerId); el.style.transition="none"; });
+  el.addEventListener("pointerdown", e => { if (noteOpen || e.target.closest(".notebtn,.notepanel")) return; dragging=true; sx=e.clientX; sy=e.clientY; dx=dy=0; el.setPointerCapture(e.pointerId); el.style.transition="none"; });
   el.addEventListener("pointermove", e => {
     if (!dragging) return;
     dx = e.clientX - sx; dy = e.clientY - sy;
@@ -548,18 +586,25 @@ function showResults(fromRoute){
     <div class="cat mw-hover">
       <div class="cathead"><h3>${c.name}</h3><span class="counts">♥ ${c.love} · ✓ ${c.yes} · ? ${c.maybe} · ✕ ${c.no}${c.rated<c.total?` · ${c.total-c.rated} Unrated`:""}</span></div>
       <div class="bar" style="display:flex"><div class="l" style="width:${100*c.love/c.total}%"></div><div style="width:${100*c.yes/c.total}%"></div><div class="m" style="width:${100*c.maybe/c.total}%"></div></div>
-      <div class="items">${c.ranked.map(card => { const v = state.verdicts[card.id]||"skip"; return `
-        <div class="item ${v}"><img src="${card.img}" alt="" loading="lazy"><span class="t">${card.title}</span><span class="v ${v}">${v==="skip"?"Unrated":VLABEL[v]}</span></div>`}).join("")}
+      <div class="items">${c.ranked.map(card => { const v = state.verdicts[card.id]||"skip", n = state.notes && state.notes[card.id], open = OPENROWS.has(card.id); return `
+        <div class="itemwrap" data-id="${card.id}"><button class="item ${v}" aria-expanded="${open}"><img src="${card.img}" alt="" loading="lazy"><span class="t">${card.title}</span>${n?`<span class="noteicon" aria-label="Has Note" title="Has Note">✎</span>`:""}<span class="v ${v}">${v==="skip"?"Unrated":VLABEL[v]}</span></button>
+        <div class="itembody"${open?"":" hidden"}>${n?`<p class="notetext">${esc(n.note)}</p>`:""}<textarea class="rownote" maxlength="1000" rows="2" placeholder="Add a note" aria-label="Note for ${esc(card.title)}">${esc(n?n.note:"")}</textarea><button class="pill savenote mw-hover">Save Note</button></div></div>`}).join("")}
       </div>
     </div>`).join("");
 }
+const OPENROWS = new Set();
+$("#cats").addEventListener("click", e => {
+  const w = e.target.closest(".itemwrap"); if (!w) return; const id = w.dataset.id;
+  if (e.target.closest(".savenote")) { setNote(id, w.querySelector(".rownote").value); save(); toast(state.notes&&state.notes[id] ? "Note Saved" : "Note Cleared"); showResults(true); return; }
+  if (e.target.closest(".item")) { OPENROWS.has(id) ? OPENROWS.delete(id) : OPENROWS.add(id); const b = w.querySelector(".itembody"); b.hidden = !OPENROWS.has(id); w.querySelector(".item").setAttribute("aria-expanded", OPENROWS.has(id)); }
+});
 function showSwipe(){ go(`#/${DECK}`); }
 function deckText(id){
   const d = DATA[id], st = readState(id, d.cards) || {verdicts:{}}, info = deckInfo(id);
   const lines = [`=== ${info.title.toUpperCase()} (${Object.keys(st.verdicts).length}/${d.cards.length} rated) ===`];
   computeResults(d.cards, d.cats, st).forEach(c => {
     lines.push("", `## ${c.name}: ${c.love} Love, ${c.yes} Yes, ${c.maybe} Maybe, ${c.no} No`);
-    c.ranked.forEach(card => lines.push(`${(VLABEL[st.verdicts[card.id]]||"Unrated").toUpperCase()}: ${card.title} (${card.focus})`));
+    c.ranked.forEach(card => { const n = st.notes && st.notes[card.id]; lines.push(`${(VLABEL[st.verdicts[card.id]]||"Unrated").toUpperCase()}: ${card.title} (${card.focus})${n?` | Note: ${n.note}`:""}`); });
   });
   return lines.join("\n");
 }
@@ -572,7 +617,7 @@ function deckJson(id){
   const d = DATA[id], st = readState(id, d.cards) || {verdicts:{}}, info = deckInfo(id);
   return {deck:id, title:info.title, started:st.started||null, rated:Object.keys(st.verdicts).length, total:d.cards.length,
     summary: computeResults(d.cards, d.cats, st).map(c=>({decision:c.name, love:c.love, yes:c.yes, maybe:c.maybe, no:c.no, unrated:c.total-c.rated})),
-    cards: d.cards.map(c=>({id:c.id, decision:d.cats[c.cat], title:c.title, focus:c.focus, caption:c.caption, aiConcept:!!c.ai, verdict:st.verdicts[c.id]||null}))};
+    cards: d.cards.map(c=>({id:c.id, decision:d.cats[c.cat], title:c.title, focus:c.focus, caption:c.caption, aiConcept:!!c.ai, verdict:st.verdicts[c.id]||null, note:(st.notes&&st.notes[c.id]&&st.notes[c.id].note)||null, noteTs:(st.notes&&st.notes[c.id]&&st.notes[c.id].ts)||null}))};
 }
 function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1800); }
 function legacyCopy(ta){
@@ -663,7 +708,8 @@ function shareSummary(){
     let line=`${d.title}: ${n("love")} Love, ${n("yes")} Yes, ${n("maybe")} Maybe, ${n("no")} No`;
     const cards=DATA[d.id]&&DATA[d.id].cards;
     if(cards){ const top=[...cards.filter(c=>v[c.id]==="love"),...cards.filter(c=>v[c.id]==="yes")].slice(0,3).map(c=>c.title);
-      if(top.length) line+=`. Top: ${top.join(", ")}`; }
+      if(top.length) line+=`. Top: ${top.join(", ")}`;
+      const ns=cards.filter(c=>st.notes&&st.notes[c.id]); if(ns.length) line+=`\nNotes: `+ns.slice(0,3).map(c=>`${c.title}: ${st.notes[c.id].note.slice(0,80)}`).join("; ")+(ns.length>3?` (+${ns.length-3} more)`:""); }
     out.push(line);
   });
   return out.length ? "My Blueprint Swipe picks:\n"+out.join("\n") : "Take a look at Blueprint Swipe:";
@@ -679,7 +725,7 @@ async function sharePicks(){
 
 function skip(){
   const el = topCard(); if (!el || el.dataset.leaving) return;
-  el.dataset.leaving = 1; const id = el.dataset.id;
+  el.dataset.leaving = 1; const id = el.dataset.id; const pn = pendingNote(el); if (pn !== null) setNote(id, pn); noteOpen = false;
   state.order = [...state.order.filter(x => x !== id), id]; save();
   el.style.transition = "transform .3s ease, opacity .3s ease"; el.style.transform = "translateY(30px) scale(.94)"; el.style.opacity = 0;
   const d = DECK; setTimeout(() => { if (DECK===d) render(); }, 260);
