@@ -945,7 +945,7 @@ $("#btnShare").onclick = sharePicks;
     var r=deckPayload(true), notes=withTestNotes(notesOf(state));
     backup('blueprint-swipe', DECK, r, notes);
     MWSubmit.send({agent:AGENT, app:'blueprint-swipe', deck:DECK, results:r, notes:notes, partial:true, answered:r.answered, total:r.total, unanswered:r.unanswered, test:!!r.test})
-      .then(function(ok){ btnP.disabled=false; sentFloat(ok?('Sent '+r.answered+'/'+r.total):'Saved, will send'); });
+      .then(function(ok){ btnP.disabled=false; if(!ok&&MWSubmit.blocked){ sentFloat('Password needed'); return; } sentFloat(ok?('Sent '+r.answered+'/'+r.total):'Saved, will send'); });
   }); }
 })();
 </script>
