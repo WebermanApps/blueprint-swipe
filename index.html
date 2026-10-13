@@ -384,6 +384,33 @@ html.lock .controls,html.lock .skiprow,html.lock .hint{flex:none}
   .controls{gap:6px;padding:2px 0}
 }
 
+
+
+/* Keep Notes (≥44px) on screen with Deck Building + Partial Submit in header */
+@media (max-width:520px),(max-height:720px){
+  header>div:first-child{gap:4px;margin-bottom:2px}
+  header .dashnav{margin:0;min-height:36px;padding:0 6px;font-size:9px}
+  header .mw-deckslink{min-height:36px;padding:0 4px}
+  #btnPartialSubmit{min-height:36px;padding:0 8px;font-size:11px}
+  .toprow{gap:4px}
+  .card .askrow .notebtn{min-height:40px;min-width:40px;padding:0 8px;font-size:10px}
+}
+@media (max-height:660px) and (orientation:portrait){
+  header .dashnav,.header .mw-deckslink,#btnPartialSubmit{min-height:32px}
+  .card .ask{padding:4px 8px}
+  .card .askrow .notebtn{min-height:36px;min-width:36px}
+}
+
+/* Partial Submit + Deck Building (Max Oct 13) */
+.mw-deckslink{display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:0 6px;color:#0B6E4F;text-decoration:none;font:700 11px/1 Khand,Hind,sans-serif;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;flex:none}
+.mw-deckslink .s{display:none}@media(max-width:480px){.mw-deckslink .l{display:none}.mw-deckslink .s{display:inline}}
+#btnPartialSubmit{display:none;align-items:center;gap:4px;min-height:36px;padding:0 10px;background:#0B6E4F;color:#fff;border:2px solid #0B6E4F;border-radius:0;font:700 12px/1 Khand,Hind,sans-serif;letter-spacing:.06em;text-transform:uppercase;touch-action:manipulation;cursor:pointer;flex:none}
+html.lock #btnPartialSubmit{display:inline-flex}
+.mw-sent{position:fixed;left:50%;top:18%;transform:translate(-50%,0);background:#fff;color:#0B6E4F;border:2px solid #0B6E4F;font:700 20px/1 Khand,Hind,sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:10px 20px;border-radius:0;box-shadow:0 8px 24px rgba(10,10,10,.15);display:flex;align-items:center;gap:8px;z-index:200;pointer-events:none;animation:mwsent 1.8s ease-out forwards}
+@keyframes mwsent{0%{opacity:0;transform:translate(-50%,8px)}12%,75%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}
+.mw-backdecks{display:flex;align-items:center;justify-content:center;gap:10px;min-height:52px;margin:14px 0 8px;padding:0 18px;background:#0B6E4F;color:#fff;border:2px solid #0B6E4F;border-radius:0;text-decoration:none;font:700 18px/1 Khand,Hind,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.mw-backdecks:hover{background:#fff;color:#0B6E4F}
+#submitConfirm{margin:8px 0 16px}
 </style>
 <!-- mw-built-footer css --><style>.mw-built{display:block;clear:both;width:100%;box-sizing:border-box;margin:0;padding:2px 16px calc(2px + var(--mw-built-pad,0px) + env(safe-area-inset-bottom,0px));background:#fafaf8;text-align:center;font-family:Hind,system-ui,sans-serif;font-size:12px;line-height:1.4;color:#8a8a8a;position:relative;z-index:1}.mw-built a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;color:#737373;text-decoration:none;transition:color .15s,opacity .15s}.mw-built a.mw-hover:hover,.mw-built a:focus-visible{color:#555;text-decoration:underline}</style>
 <script src="ptr.js?v=3" defer></script>
@@ -391,13 +418,17 @@ html.lock .controls,html.lock .skiprow,html.lock .hint{flex:none}
 <body>
 <div class="app">
   <header>
-    <a class="dashnav mw-hover" href="https://webermanapps.github.io/blueprint-dashboard/">Blueprint Dashboard</a>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <a class="dashnav mw-hover" href="https://webermanapps.github.io/blueprint-dashboard/">Blueprint Dashboard</a>
+      <a class="mw-deckslink mw-hover" href="https://webermanapps.github.io/branding-djqmb410/decks/" title="Deck Building"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg><span class="l">Deck Building</span><span class="s">Decks</span></a>
+    </div>
     <div class="toprow">
       <div style="display:flex;align-items:center;gap:8px;min-width:0">
         <button class="pill back" id="btnHome" aria-label="Back to Rooms" style="display:none">&#8249; Rooms</button>
         <div style="min-width:0"><h1>Blueprint <span>Swipe</span></h1><div id="deckName"></div></div>
       </div>
-      <div style="display:flex;gap:6px">
+      <div style="display:flex;gap:6px;align-items:center">
+        <button type="button" id="btnPartialSubmit" class="mw-hover" title="Submit answers so far" aria-label="Submit answers so far"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M4 12l16-8-6 16-3-7z"/></svg>Submit</button>
         <button class="pill mw-hover" id="btnSwipeView" style="display:none">Swipe</button>
         <button class="pill help" id="btnHelp" aria-label="How It Works" title="How It Works">?</button>
         <button class="pill mw-hover" id="btnResults" style="display:none">Results</button>
@@ -421,6 +452,7 @@ html.lock .controls,html.lock .skiprow,html.lock .hint{flex:none}
         <button class="pill mw-hover" id="btnJsonAll">Download All JSON</button>
       </div>
       <div id="submitAllBox"></div>
+      <a class="mw-backdecks mw-hover" href="https://webermanapps.github.io/branding-djqmb410/decks/"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Back to Deck Building</span></a>
     </div>
   </section>
 
@@ -452,6 +484,7 @@ html.lock .controls,html.lock .skiprow,html.lock .hint{flex:none}
       <button class="pill mw-hover" id="btnReset">Start Over</button>
     </div>
     <div id="submitBox"></div>
+    <div id="submitConfirm"><a class="mw-backdecks mw-hover" href="https://webermanapps.github.io/branding-djqmb410/decks/"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Back to Deck Building</span></a></div>
     <div class="copybox" id="copyBox"><p>Your browser blocked automatic copying. Tap the text, choose Select All, then Copy.</p><textarea id="copyFallback" readonly aria-label="Results text"></textarea></div>
     <div class="summary" id="summary"></div>
     <label class="sortrow label">Sort Rows <select id="rowSort" aria-label="Sort Results Rows"><option value="rank">Ranked (Love First)</option><option value="az">Title A-Z</option></select></label>
@@ -851,46 +884,72 @@ $("#btnShare").onclick = sharePicks;
 <script>
 (function(){
   var AGENT='blueprint', AGENT_ID='5b23bb2f-ffc9-4b61-b04c-43a3943eac12';
+  var DECKS_URL='https://webermanapps.github.io/branding-djqmb410/decks/';
   var btnDeck=null, btnAll=null;
+  function isTest(){ return /[?&](?:mwtest|test)=1\b/.test(location.search); }
   function notesOf(st){ st=st||{}; var n=st.notes||{}, o=[]; Object.keys(n).forEach(function(k){ if(n[k]&&n[k].note) o.push(k+': '+n[k].note); }); return o.join('\n'); }
-  function deckPayload(){
-    if(!DECK||!DATA[DECK]) return {agentId:AGENT_ID, deck:DECK, empty:true};
-    var j=deckJson(DECK); j.agentId=AGENT_ID; j.test=/[?&]mwtest=1\b/.test(location.search)||undefined;
+  function withTestNotes(n){ n=n||''; return isTest()?('TEST submit from Blueprint agent, please ignore. '+n).trim():n; }
+  function unansweredOf(id){
+    if(!DATA[id]||!DATA[id].cards) return [];
+    var st=readState(id, DATA[id].cards)||{}, v=st.verdicts||{};
+    return DATA[id].cards.filter(function(c){ return !v[c.id]; }).map(function(c){ return c.id; });
+  }
+  function answeredCount(id){
+    if(!DATA[id]||!DATA[id].cards) return 0;
+    var st=readState(id, DATA[id].cards)||{}, v=st.verdicts||{};
+    return DATA[id].cards.filter(function(c){ return !!v[c.id]; }).length;
+  }
+  function deckPayload(partial){
+    if(!DECK||!DATA[DECK]) return {agentId:AGENT_ID, deck:DECK, empty:true, partial:!!partial};
+    var j=deckJson(DECK); j.agentId=AGENT_ID;
+    var un=unansweredOf(DECK), tot=DATA[DECK].cards.length, ans=answeredCount(DECK);
+    j.partial=!!partial || un.length>0; j.answered=ans; j.total=tot; j.unanswered=un;
+    if(isTest()) j.test=true;
     return j;
   }
-  function allPayload(){
+  function allPayload(partial){
     var decks=DECKS.filter(function(d){return d.ready&&DATA[d.id];}).map(function(d){return deckJson(d.id);});
-    return {agentId:AGENT_ID, all:true, decks:decks, test:/[?&]mwtest=1\b/.test(location.search)||undefined};
+    var un=[], ans=0, tot=0;
+    DECKS.forEach(function(d){ if(!d.ready||!DATA[d.id])return; var u=unansweredOf(d.id); un=un.concat(u.map(function(id){return d.id+':'+id;})); ans+=answeredCount(d.id); tot+=DATA[d.id].cards.length; });
+    return {agentId:AGENT_ID, all:true, decks:decks, partial:!!partial||un.length>0, answered:ans, total:tot, unanswered:un, test:isTest()||undefined};
   }
-  function isTest(){ return /[?&]mwtest=1\b/.test(location.search); }
-  function withTestNotes(n){ n=n||''; return isTest()?('TEST submit from Blueprint agent, please ignore. '+n).trim():n; }
   function backup(app,deck,results,notes){ try{ localStorage.setItem('mw-submit-backup-'+app, JSON.stringify({savedAt:new Date().toISOString(),app:app,deck:deck,results:results,notes:notes,agentId:AGENT_ID})); }catch(e){} }
+  function sentFloat(msg){ var d=document.createElement('div'); d.className='mw-sent'; d.setAttribute('role','status'); d.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span></span>'; d.lastChild.textContent=msg; document.body.appendChild(d); setTimeout(function(){ d.remove(); },1900); }
   function ensureDeckBtn(){
     var box=document.getElementById('submitBox'); if(!box||btnDeck) return;
     btnDeck=MWSubmit.button(box,{agent:AGENT, app:'blueprint-swipe', deck:(DECK||'unknown'),
-      getResults:deckPayload, getNotes:function(){ return withTestNotes(notesOf(state)); }});
-    box.addEventListener('click',function(e){ if(e.target.closest('.mws-btn')) backup('blueprint-swipe', DECK||'unknown', deckPayload(), withTestNotes(notesOf(state))); }, true);
+      getResults:function(){ return deckPayload(false); }, getNotes:function(){ return withTestNotes(notesOf(state)); }});
+    box.addEventListener('click',function(e){ if(e.target.closest('.mws-btn')) backup('blueprint-swipe', DECK||'unknown', deckPayload(false), withTestNotes(notesOf(state))); }, true);
   }
   function ensureAllBtn(){
     var box=document.getElementById('submitAllBox'); if(!box||btnAll) return;
     btnAll=MWSubmit.button(box,{agent:AGENT, app:'blueprint-swipe', deck:'all-decks',
-      getResults:allPayload, getNotes:function(){
+      getResults:function(){ return allPayload(false); }, getNotes:function(){
         var o=[]; DECKS.forEach(function(d){ if(!d.ready||!DATA[d.id])return; var st=readState(d.id, DATA[d.id].cards)||{}; var n=notesOf(st); if(n) o.push('## '+d.title+'\n'+n); });
         return withTestNotes(o.join('\n\n'));
       }});
-    box.addEventListener('click',function(e){ if(e.target.closest('.mws-btn')){ var n=btnAll; backup('blueprint-swipe','all-decks',allPayload(), withTestNotes('')); } }, true);
   }
-  // Re-bind deck button when deck changes / results shown
   var _show=showResults;
   showResults=function(fromRoute){ _show(fromRoute); try{
     var box=document.getElementById('submitBox');
     if(box){ box.innerHTML=''; btnDeck=null; ensureDeckBtn(); }
   }catch(e){} };
   ensureAllBtn();
-  // also ensure after route loads results
   window.addEventListener('hashchange', function(){ setTimeout(function(){ if(location.hash.indexOf('/results')>=0){ var box=document.getElementById('submitBox'); if(box){ box.innerHTML=''; btnDeck=null; ensureDeckBtn(); } } }, 50); });
+
+  /* Mid-deck partial Submit — always visible in swipe header */
+  var btnP=document.getElementById('btnPartialSubmit');
+  if(btnP){ btnP.addEventListener('click', function(){
+    if(!DECK||!DATA[DECK]||btnP.disabled) return;
+    btnP.disabled=true;
+    var r=deckPayload(true), notes=withTestNotes(notesOf(state));
+    backup('blueprint-swipe', DECK, r, notes);
+    MWSubmit.send({agent:AGENT, app:'blueprint-swipe', deck:DECK, results:r, notes:notes, partial:true, answered:r.answered, total:r.total, unanswered:r.unanswered, test:!!r.test})
+      .then(function(ok){ btnP.disabled=false; sentFloat(ok?('Sent '+r.answered+'/'+r.total):'Saved, will send'); });
+  }); }
 })();
 </script>
+
 
 </body>
 </html>
