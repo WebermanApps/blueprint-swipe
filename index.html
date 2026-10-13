@@ -366,7 +366,7 @@ html{color-scheme:light only}
 
 </style>
 <!-- mw-built-footer css --><style>.mw-built{display:block;clear:both;width:100%;box-sizing:border-box;margin:0;padding:2px 16px calc(2px + var(--mw-built-pad,0px) + env(safe-area-inset-bottom,0px));background:#fafaf8;text-align:center;font-family:Hind,system-ui,sans-serif;font-size:12px;line-height:1.4;color:#8a8a8a;position:relative;z-index:1}.mw-built a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;color:#737373;text-decoration:none;transition:color .15s,opacity .15s}.mw-built a.mw-hover:hover,.mw-built a:focus-visible{color:#555;text-decoration:underline}</style>
-<script src="ptr.js" defer></script>
+<script src="ptr.js?v=3" defer></script>
 </head>
 <body>
 <div class="app">
@@ -400,6 +400,7 @@ html{color-scheme:light only}
         <button class="primary mw-hover" id="btnCopyAll">Copy All Results</button>
         <button class="pill mw-hover" id="btnJsonAll">Download All JSON</button>
       </div>
+      <div id="submitAllBox"></div>
     </div>
   </section>
 
@@ -430,6 +431,7 @@ html{color-scheme:light only}
       <button class="pill mw-hover" id="btnJson">Download JSON</button>
       <button class="pill mw-hover" id="btnReset">Start Over</button>
     </div>
+    <div id="submitBox"></div>
     <div class="copybox" id="copyBox"><p>Your browser blocked automatic copying. Tap the text, choose Select All, then Copy.</p><textarea id="copyFallback" readonly aria-label="Results text"></textarea></div>
     <div class="summary" id="summary"></div>
     <label class="sortrow label">Sort Rows <select id="rowSort" aria-label="Sort Results Rows"><option value="rank">Ranked (Love First)</option><option value="az">Title A-Z</option></select></label>
@@ -824,5 +826,51 @@ $("#btnShare").onclick = sharePicks;
 <script>(function(){var r=document.documentElement;function m(){var ft=document.querySelector('.mw-built'),h=0,vh=innerHeight;if(!ft)return;document.querySelectorAll('body *').forEach(function(e){if(ft.contains(e))return;var s=getComputedStyle(e);if((s.position=='fixed'||s.position=='sticky')&&s.display!='none'&&s.visibility!='hidden'){var b=e.getBoundingClientRect();if(b.height>0&&b.height<vh*.5&&b.bottom>=vh-2&&b.top>vh*.5)h=Math.max(h,vh-b.top)}});r.style.setProperty('--mw-built-pad',Math.ceil(h)+'px')}addEventListener('load',m);addEventListener('resize',m);setTimeout(m,600);setTimeout(m,2000)})();</script>
 <script>(function(){var f=document.querySelector('.mw-built'),a=document.querySelector('.app');if(f&&a){a.appendChild(f);f.style.flex='none';f.style.paddingBottom='calc(2px + env(safe-area-inset-bottom,0px))'}var i=document.querySelector('#intro .box');if(f&&i){var c=f.cloneNode(true);c.style.paddingLeft=c.style.paddingRight='0';i.appendChild(c)}})();</script>
 <!-- /mw-built-footer -->
+
+<script src="submit.js"></script>
+<script>
+(function(){
+  var AGENT='blueprint', AGENT_ID='5b23bb2f-ffc9-4b61-b04c-43a3943eac12';
+  var btnDeck=null, btnAll=null;
+  function notesOf(st){ st=st||{}; var n=st.notes||{}, o=[]; Object.keys(n).forEach(function(k){ if(n[k]&&n[k].note) o.push(k+': '+n[k].note); }); return o.join('\n'); }
+  function deckPayload(){
+    if(!DECK||!DATA[DECK]) return {agentId:AGENT_ID, deck:DECK, empty:true};
+    var j=deckJson(DECK); j.agentId=AGENT_ID; j.test=/[?&]mwtest=1\b/.test(location.search)||undefined;
+    return j;
+  }
+  function allPayload(){
+    var decks=DECKS.filter(function(d){return d.ready&&DATA[d.id];}).map(function(d){return deckJson(d.id);});
+    return {agentId:AGENT_ID, all:true, decks:decks, test:/[?&]mwtest=1\b/.test(location.search)||undefined};
+  }
+  function isTest(){ return /[?&]mwtest=1\b/.test(location.search); }
+  function withTestNotes(n){ n=n||''; return isTest()?('TEST submit from Blueprint agent, please ignore. '+n).trim():n; }
+  function backup(app,deck,results,notes){ try{ localStorage.setItem('mw-submit-backup-'+app, JSON.stringify({savedAt:new Date().toISOString(),app:app,deck:deck,results:results,notes:notes,agentId:AGENT_ID})); }catch(e){} }
+  function ensureDeckBtn(){
+    var box=document.getElementById('submitBox'); if(!box||btnDeck) return;
+    btnDeck=MWSubmit.button(box,{agent:AGENT, app:'blueprint-swipe', deck:(DECK||'unknown'),
+      getResults:deckPayload, getNotes:function(){ return withTestNotes(notesOf(state)); }});
+    box.addEventListener('click',function(e){ if(e.target.closest('.mws-btn')) backup('blueprint-swipe', DECK||'unknown', deckPayload(), withTestNotes(notesOf(state))); }, true);
+  }
+  function ensureAllBtn(){
+    var box=document.getElementById('submitAllBox'); if(!box||btnAll) return;
+    btnAll=MWSubmit.button(box,{agent:AGENT, app:'blueprint-swipe', deck:'all-decks',
+      getResults:allPayload, getNotes:function(){
+        var o=[]; DECKS.forEach(function(d){ if(!d.ready||!DATA[d.id])return; var st=readState(d.id, DATA[d.id].cards)||{}; var n=notesOf(st); if(n) o.push('## '+d.title+'\n'+n); });
+        return withTestNotes(o.join('\n\n'));
+      }});
+    box.addEventListener('click',function(e){ if(e.target.closest('.mws-btn')){ var n=btnAll; backup('blueprint-swipe','all-decks',allPayload(), withTestNotes('')); } }, true);
+  }
+  // Re-bind deck button when deck changes / results shown
+  var _show=showResults;
+  showResults=function(fromRoute){ _show(fromRoute); try{
+    var box=document.getElementById('submitBox');
+    if(box){ box.innerHTML=''; btnDeck=null; ensureDeckBtn(); }
+  }catch(e){} };
+  ensureAllBtn();
+  // also ensure after route loads results
+  window.addEventListener('hashchange', function(){ setTimeout(function(){ if(location.hash.indexOf('/results')>=0){ var box=document.getElementById('submitBox'); if(box){ box.innerHTML=''; btnDeck=null; ensureDeckBtn(); } } }, 50); });
+})();
+</script>
+
 </body>
 </html>
