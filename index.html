@@ -37,7 +37,7 @@
 :root{--bg:#fbf8f3;--panel:#ffffff;--ink:#0a0a0a;--muted:#5f5f5f;--accent:#171717;--yes:#1e7d4a;--no:#b4473c;--love:#d0114f;--maybe:#9a6200;--mw-dur:180ms;--mw-ease:cubic-bezier(.2,.8,.2,1);--line:#e5e5e5}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;-webkit-text-size-adjust:100%;text-size-adjust:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-html,body{overscroll-behavior:none}
+html,body{overscroll-behavior-x:none;overscroll-behavior-y:auto}
 /* swipe view: lock the page to the dynamic viewport so nothing scrolls or bounces while dragging */
 html.lock,html.lock body{overflow:hidden;height:100%;height:100dvh}
 button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
@@ -335,6 +335,7 @@ html{color-scheme:light only}
 @media(max-width:420px){.dashnav{padding:0 8px;font-size:10px;letter-spacing:.06em}}
 </style>
 <!-- mw-built-footer css --><style>.mw-built{display:block;clear:both;width:100%;box-sizing:border-box;margin:0;padding:2px 16px calc(2px + var(--mw-built-pad,0px) + env(safe-area-inset-bottom,0px));background:#fafaf8;text-align:center;font-family:Hind,system-ui,sans-serif;font-size:12px;line-height:1.4;color:#8a8a8a;position:relative;z-index:1}.mw-built a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;color:#737373;text-decoration:none;transition:color .15s,opacity .15s}.mw-built a.mw-hover:hover,.mw-built a:focus-visible{color:#555;text-decoration:underline}</style>
+<script src="ptr.js" defer></script>
 </head>
 <body>
 <div class="app">
@@ -372,7 +373,7 @@ html{color-scheme:light only}
   </section>
 
   <main id="swipe" style="display:none">
-    <div class="stage" id="stage">
+    <div class="stage" id="stage" data-ptr-ignore>
       <div class="done" id="done">
         <h2>Deck Complete!</h2>
         <p style="color:var(--muted);margin:0">You have rated every card in this room.</p>
@@ -586,6 +587,7 @@ function undo(){
 function attachDrag(el){
   let sx=0, sy=0, dx=0, dy=0, dragging=false;
   const stamps = {yes: el.querySelector(".stamp.yes"), no: el.querySelector(".stamp.no")};
+  ["touchstart","touchmove","touchend"].forEach(t => el.addEventListener(t, e => e.stopPropagation(), {passive:true}));
   el.addEventListener("pointerdown", e => { if (noteOpen || e.target.closest(".notebtn,.notepanel")) return; dragging=true; sx=e.clientX; sy=e.clientY; dx=dy=0; el.setPointerCapture(e.pointerId); el.style.transition="none"; });
   el.addEventListener("pointermove", e => {
     if (!dragging) return;
@@ -730,7 +732,7 @@ $("#btnCopy").onclick = () => { $("#results .actions").after($("#copyBox")); cop
 $("#btnJson").onclick = downloadJson;
 $("#btnCopyAll").onclick = copyAll;
 $("#btnJsonAll").onclick = downloadAll;
-$("#swipe").addEventListener("touchmove", e => { if (document.documentElement.classList.contains("lock")) e.preventDefault(); }, {passive:false});
+$("#stage").addEventListener("touchmove", e => { if (document.documentElement.classList.contains("lock")) e.preventDefault(); }, {passive:false});
 function showIntro(){ $("#intro").classList.add("show"); $("#intro").scrollTop = 0; setTimeout(()=>$("#btnStart").focus({preventScroll:true}),50); }
 function hideIntro(){ $("#intro").classList.remove("show"); try { localStorage.setItem(INTRO_KEY, "1"); } catch(e){} }
 $("#btnStart").onclick = hideIntro;
