@@ -328,12 +328,18 @@ html{color-scheme:light only}
 <style>
 .r2banner{display:flex;flex-direction:column;gap:4px;min-height:44px;padding:14px 16px;margin:0 0 12px;border:2px solid var(--ink,#111);border-radius:2px;background:#fff;color:inherit;text-decoration:none}
 .r2banner b{font-size:1.05rem}.r2banner span{font-size:.95rem}.r2banner .go{font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.8rem;margin-top:4px}
+
+.dashnav{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:0 12px;border:2px solid var(--accent,#171717);background:#fff;color:var(--ink,#171717);font:700 11px/1 var(--body,Hind,system-ui,sans-serif);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:0;flex:none;white-space:nowrap;margin:0 0 8px}
+.dashnav:hover{background:var(--accent,#171717);color:#fafafa}
+.intro .dashnav{margin:0 0 12px;align-self:flex-start}
+@media(max-width:420px){.dashnav{padding:0 8px;font-size:10px;letter-spacing:.06em}}
 </style>
 <!-- mw-built-footer css --><style>.mw-built{display:block;clear:both;width:100%;box-sizing:border-box;margin:0;padding:2px 16px calc(2px + var(--mw-built-pad,0px) + env(safe-area-inset-bottom,0px));background:#fafaf8;text-align:center;font-family:Hind,system-ui,sans-serif;font-size:12px;line-height:1.4;color:#8a8a8a;position:relative;z-index:1}.mw-built a{display:inline-flex;align-items:center;min-height:44px;padding:0 10px;color:#737373;text-decoration:none;transition:color .15s,opacity .15s}.mw-built a.mw-hover:hover,.mw-built a:focus-visible{color:#555;text-decoration:underline}</style>
 </head>
 <body>
 <div class="app">
   <header>
+    <a class="dashnav mw-hover" href="https://webermanapps.github.io/blueprint-dashboard/">Blueprint Dashboard</a>
     <div class="toprow">
       <div style="display:flex;align-items:center;gap:8px;min-width:0">
         <button class="pill back" id="btnHome" aria-label="Back to Rooms" style="display:none">&#8249; Rooms</button>
@@ -406,6 +412,7 @@ html{color-scheme:light only}
 <div class="toast" id="toast"></div>
 <div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
   <div class="box">
+    <a class="dashnav mw-hover" href="https://webermanapps.github.io/blueprint-dashboard/">Blueprint Dashboard</a>
     <h2 id="introTitle">Judge Only the Highlighted Feature</h2>
     <p>Every card names one feature at the top. Rate that feature alone, even if you dislike the rest of the photo. Photos are cropped to the feature so you know exactly where to look.</p>
     <div class="example"><b>Rate This:</b> The Floating Walnut Desk<small>Ignore the Rest of the Room</small></div>
