@@ -72,6 +72,7 @@
       if(s==='fail'){b.textContent='Not Sent Yet';b.classList.add('fail');m.textContent='Saved on this device. Tap to retry; it also retries when you reopen.';}}
     b.addEventListener('click',function(){if(b.disabled)return;b.disabled=true;gate(o.agent).then(function(ok){b.disabled=false;if(!ok){state('idle');m.textContent='Password needed. Nothing was sent.';return;}state('sending');
       var p={agent:o.agent,app:o.app,deck:o.deck,results:o.getResults?o.getResults():null,notes:o.getNotes?o.getNotes():'',sentAt:new Date().toISOString(),ua:navigator.userAgent};
+      if(p.results&&p.results.voter)p.voter=p.results.voter;
       post(p).then(function(){state('sent')},function(){setQ(q().concat([p]));state('fail')});});});
     state(q().some(function(p){return p.agent===o.agent&&p.deck===o.deck})?'fail':'idle');
     flush().then(function(n){if(n&&!q().some(function(p){return p.agent===o.agent&&p.deck===o.deck}))state('sent')});
@@ -79,7 +80,7 @@
   /* send(o): one-shot submit with no button (mid-deck partial). o: {agent,app,deck,results,notes,partial,answered,total,unanswered,test}.
      Resolves true when posted, false when queued on device for retry. */
   function send(o){o=o||{};return gate(o.agent).then(function(ok){if(!ok){w.MWSubmit.blocked=true;return false;}w.MWSubmit.blocked=false;var p={agent:o.agent,app:o.app,deck:o.deck,results:o.results||null,notes:o.notes||'',sentAt:new Date().toISOString(),ua:navigator.userAgent};
-    ['partial','answered','total','unanswered','test'].forEach(function(k){if(o[k]!==undefined)p[k]=o[k]});
+    ['partial','answered','total','unanswered','test','voter'].forEach(function(k){if(o[k]!==undefined)p[k]=o[k]});
     return post(p).then(function(){return true},function(){setQ(q().concat([p]));return false});});}
   w.MWSubmit={button:button,send:send,flush:flush,gate:gate,isAuthed:authed,url:URL,blocked:false};
   w.addEventListener('online',flush);

@@ -1,0 +1,449 @@
+{
+  "id": "nozomi-finishes",
+  "title": "Nozomi: Finish Details",
+  "blurb": "Walls, tile, wood, stone, cabinets, hardware, lights, fabrics. Rate the finish, not the layout.",
+  "voter": "nozomi",
+  "count": 20,
+  "cards": [
+    {
+      "id": "nzf-00",
+      "cat": "zellige",
+      "title": "Green Zellige",
+      "focus": "Deep Green Zellige",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Glossy, uneven handmade tile in green.",
+      "fit": true,
+      "img": "img/tile/tile-00.jpg",
+      "credit": {
+        "title": "Zelliges fait main",
+        "creator": "AILAFM",
+        "license": "CC BY-NC-ND 2.0",
+        "url": "https://www.flickr.com/photos/33962113@N02/52204860576",
+        "source": "Flickr via Openverse"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "tile-00"
+    },
+    {
+      "id": "nzf-01",
+      "cat": "zellige",
+      "title": "Blue Zellige",
+      "focus": "Blue Zellige",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Deep blue handmade squares.",
+      "fit": true,
+      "img": "img/tile/tile-02.jpg",
+      "credit": {
+        "title": "Rockefeller Museum fountain",
+        "creator": "Talmoryair",
+        "license": "CC BY 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Rockefeller_Museum_fountain.jpg",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "tile-02"
+    },
+    {
+      "id": "nzf-02",
+      "cat": "terracotta",
+      "title": "Handmade Terracotta Floor",
+      "focus": "The Handmade Terracotta Floor",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Sun-baked clay squares, worn smooth.",
+      "fit": true,
+      "img": "img/tile/tile-04.jpg",
+      "credit": {
+        "title": "Terracotta tiles, \u2018Maison du 13e si\u00e8cle\u2019, Donzenac, Corr\u00e8ze, France 02",
+        "creator": "KaiKemmann",
+        "license": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Terracotta_tiles,_%E2%80%98Maison_du_13e_si%C3%A8cle%E2%80%99,_Donzenac,_Corr%C3%A8ze,_France_02.jpg",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "tile-04"
+    },
+    {
+      "id": "nzf-03",
+      "cat": "wood",
+      "title": "White Oak",
+      "focus": "White Oak",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Pale, straight grain with fine flecks.",
+      "fit": true,
+      "img": "img/species/species-00.jpg",
+      "credit": {
+        "title": "Ephraim Hawley House circa 1670 original oak flooring",
+        "creator": "Tomticker5",
+        "license": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Ephraim_Hawley_House_circa_1670_original_oak_flooring.JPG",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "species-00"
+    },
+    {
+      "id": "nzf-04",
+      "cat": "wood",
+      "title": "Walnut",
+      "focus": "Black Walnut",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Deep chocolate grain with purple and gold.",
+      "fit": true,
+      "img": "img/species/species-01.jpg",
+      "credit": {
+        "title": "Noce canaletto",
+        "creator": "Ale.G.2001",
+        "license": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Noce_canaletto.jpg",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "species-01"
+    },
+    {
+      "id": "nzf-05",
+      "cat": "wood",
+      "title": "Teak",
+      "focus": "Teak",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Golden-brown, oily, made for outdoors.",
+      "fit": true,
+      "img": "img/species/species-02.jpg",
+      "credit": {
+        "title": "Teak wood",
+        "creator": "Philipp Zinger",
+        "license": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Teak_wood.JPG",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "species-02"
+    },
+    {
+      "id": "nzf-06",
+      "cat": "counter",
+      "title": "Honed White Marble",
+      "focus": "The Honed White Marble Counter",
+      "ignore": "Rate the Counter Stone, Not the Room",
+      "caption": "Soft, matte Carrara-type marble that patinas.",
+      "fit": true,
+      "img": "img/kitchen/kitchen-11.jpg",
+      "credit": {
+        "title": "Honed White Marble",
+        "creator": "Blueprint",
+        "license": "AI concept image by Blueprint",
+        "url": "",
+        "source": "AI concept image by Blueprint"
+      },
+      "ai": true,
+      "edit": "",
+      "from": "kitchen-11"
+    },
+    {
+      "id": "nzf-07",
+      "cat": "counter",
+      "title": "Black Soapstone",
+      "focus": "The Black Soapstone Counter",
+      "ignore": "Rate the Counter Stone, Not the Room",
+      "caption": "Silky, dark stone that darkens with oil and use.",
+      "fit": true,
+      "img": "img/kitchen/kitchen-12.jpg",
+      "credit": {
+        "title": "Black Soapstone",
+        "creator": "Blueprint",
+        "license": "AI concept image by Blueprint",
+        "url": "",
+        "source": "AI concept image by Blueprint"
+      },
+      "ai": true,
+      "edit": "",
+      "from": "kitchen-12"
+    },
+    {
+      "id": "nzf-08",
+      "cat": "counter",
+      "title": "Quartzite",
+      "focus": "The Quartzite Counter",
+      "ignore": "Rate the Counter Stone, Not the Room",
+      "caption": "Marble-like veining with the toughness of granite.",
+      "fit": true,
+      "img": "img/kitchen/kitchen-13.jpg",
+      "credit": {
+        "title": "Quartzite",
+        "creator": "Blueprint",
+        "license": "AI concept image by Blueprint",
+        "url": "",
+        "source": "AI concept image by Blueprint"
+      },
+      "ai": true,
+      "edit": "",
+      "from": "kitchen-13"
+    },
+    {
+      "id": "nzf-09",
+      "cat": "faucetfinish",
+      "title": "Matte Black",
+      "focus": "The Matte Black Faucet",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Flat black, crisp against stone.",
+      "fit": true,
+      "img": "img/hardware/hardware-01.jpg",
+      "credit": {
+        "title": "Black and white faucet",
+        "creator": "Chris_Hawes",
+        "license": "CC BY 2.0",
+        "url": "https://www.flickr.com/photos/50954647@N07/53113333214",
+        "source": "Flickr via Openverse"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "hardware-01"
+    },
+    {
+      "id": "nzf-10",
+      "cat": "faucetfinish",
+      "title": "Unlacquered Brass",
+      "focus": "The Unlacquered Brass Faucet",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Raw brass that darkens to a soft patina.",
+      "fit": true,
+      "img": "img/hardware/hardware-02.jpg",
+      "credit": {
+        "title": "Brass tap old",
+        "creator": "Assianir",
+        "license": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Brass_tap_old.jpg",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "hardware-02"
+    },
+    {
+      "id": "nzf-11",
+      "cat": "faucetfinish",
+      "title": "Stainless Steel",
+      "focus": "The Stainless Steel Faucet",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Plain, durable kitchen steel.",
+      "fit": true,
+      "img": "img/hardware/hardware-03.jpg",
+      "credit": {
+        "title": "California Kitchen from 1980 \u2013 04",
+        "creator": "Stilfehler",
+        "license": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:California_Kitchen_from_1980_%E2%80%93_04.jpg",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "hardware-03"
+    },
+    {
+      "id": "nzf-12",
+      "cat": "pendant",
+      "title": "Paper Lantern Pendant",
+      "focus": "The Paper Lantern Pendant",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Washi paper on a thin frame, soft glow.",
+      "fit": true,
+      "img": "img/lighting/lighting-00.jpg",
+      "credit": {
+        "title": "Bubble Field - Flickr - Todd Baker (( technowannabe",
+        "creator": "Todd Baker from Elmhurst, IL, United States",
+        "license": "CC BY 2.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Bubble_Field_-_Flickr_-_Todd_Baker_((_technowannabe.jpg",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "lighting-00"
+    },
+    {
+      "id": "nzf-13",
+      "cat": "pendant",
+      "title": "Woven Pendant",
+      "focus": "The Woven Bamboo Pendant",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Hand-woven shade casting patterned light.",
+      "fit": true,
+      "img": "img/lighting/lighting-01.jpg",
+      "credit": {
+        "title": "Geometric Bamboo Lamp Shade Pattern",
+        "creator": "Aliva Sahoo",
+        "license": "CC BY 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Geometric_Bamboo_Lamp_Shade_Pattern.jpg",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "lighting-01"
+    },
+    {
+      "id": "nzf-14",
+      "cat": "pendant",
+      "title": "Blown Glass Pendant",
+      "focus": "The Hand-Blown Glass Pendant",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "A single glass globe with a slight wobble.",
+      "fit": true,
+      "img": "img/lighting/lighting-02.jpg",
+      "credit": {
+        "title": "Glass pendants hanging ceiling",
+        "creator": "",
+        "license": "CC0",
+        "url": "https://www.rawpixel.com/image/3302407/free-photo-image-chandelier-hanging-lamp-bulb",
+        "source": "Rawpixel via Openverse"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "lighting-02"
+    },
+    {
+      "id": "nzf-15",
+      "cat": "frontdoor",
+      "title": "Timber Slat Door",
+      "focus": "The Vertical Timber Slat Front Door",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Fine vertical battens, light filtering through.",
+      "fit": true,
+      "img": "img/doors/doors-01.jpg",
+      "credit": {
+        "title": "2026-09-05 Sigwardskirche Idensen 1470718",
+        "creator": "B\u00e4rbel Miemietz",
+        "license": "CC BY 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:2026-09-05_Sigwardskirche_Idensen_1470718.jpg",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "doors-01"
+    },
+    {
+      "id": "nzf-16",
+      "cat": "frontdoor",
+      "title": "Steel and Glass Door",
+      "focus": "The Black Steel and Glass Front Door",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Slim black steel framing a glass entry.",
+      "fit": true,
+      "img": "img/doors/doors-02.jpg",
+      "credit": {
+        "title": "Ankaraotobus-4",
+        "creator": "Viki\u00e7izer",
+        "license": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Ankaraotobus-4.JPG",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "doors-02"
+    },
+    {
+      "id": "nzf-17",
+      "cat": "sofa",
+      "title": "Low Linen Sofa",
+      "focus": "The Low, Deep Linen Sofa",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Soft natural linen, low to the ground.",
+      "fit": true,
+      "img": "img/furniture/furniture-00.jpg",
+      "credit": {
+        "title": "Interior of the Baghdad Kiosk at Topkap\u0131 Palace (1)",
+        "creator": "Jos\u00e9 Luiz",
+        "license": "CC BY-SA 3.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Interior_of_the_Baghdad_Kiosk_at_Topkap%C4%B1_Palace_(1).jpg",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "furniture-00"
+    },
+    {
+      "id": "nzf-18",
+      "cat": "sofa",
+      "title": "Cognac Leather Sofa",
+      "focus": "The Cognac Leather Sofa",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "Saddle leather that ages well.",
+      "fit": true,
+      "img": "img/furniture/furniture-01.jpg",
+      "credit": {
+        "title": "ARKIVET Peace and Human Rights Centre Kristiansand Norway. Museum WWII Exhibition. Gestapo office. Kontoret. Skinnsofa av l\u00e6r, kontorm\u00f8bel til Statsarkivet 1935 overtatt av Sipo 1942 (leather sofa couch made for the State Archives) A",
+        "creator": "Wolfmann",
+        "license": "CC BY-SA 4.0",
+        "url": "https://commons.wikimedia.org/wiki/File:ARKIVET_Peace_and_Human_Rights_Centre_Kristiansand_Norway._Museum_WWII_Exhibition._Gestapo_office._Kontoret._Skinnsofa_av_l%C3%A6r,_kontorm%C3%B8bel_til_Statsarkivet_1935_overtatt_av_Sipo_1942_(leather_sofa_couch_made_for_the_State_Archives)_A.jpg",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "",
+      "from": "furniture-01"
+    },
+    {
+      "id": "nzf-19",
+      "cat": "vanity",
+      "title": "Vessel Sink on Wood",
+      "focus": "The Bowl Sink on a Wood Counter",
+      "ignore": "Ignore the Rest of the Room",
+      "caption": "A white vessel basin sitting on warm timber.",
+      "fit": true,
+      "img": "img/bath/bath-08.jpg",
+      "credit": {
+        "title": "Modern bathroom design with wooden accents and glass shower enclosure",
+        "creator": "Shixart1985",
+        "license": "CC BY 2.0",
+        "url": "https://commons.wikimedia.org/wiki/File:Modern_bathroom_design_with_wooden_accents_and_glass_shower_enclosure.jpg",
+        "source": "Wikimedia Commons"
+      },
+      "ai": false,
+      "edit": "cropped",
+      "from": "bath-08"
+    }
+  ],
+  "cats": {
+    "zellige": [
+      "nzf-00",
+      "nzf-01"
+    ],
+    "terracotta": [
+      "nzf-02"
+    ],
+    "wood": [
+      "nzf-03",
+      "nzf-04",
+      "nzf-05"
+    ],
+    "counter": [
+      "nzf-06",
+      "nzf-07",
+      "nzf-08"
+    ],
+    "faucetfinish": [
+      "nzf-09",
+      "nzf-10",
+      "nzf-11"
+    ],
+    "pendant": [
+      "nzf-12",
+      "nzf-13",
+      "nzf-14"
+    ],
+    "frontdoor": [
+      "nzf-15",
+      "nzf-16"
+    ],
+    "sofa": [
+      "nzf-17",
+      "nzf-18"
+    ],
+    "vanity": [
+      "nzf-19"
+    ]
+  }
+}
